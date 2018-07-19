@@ -29,14 +29,9 @@ class Login extends Component {
 
   loginProcess() {
     const { processLogin } = this.props;
-    processLogin(this.state)
-      .then(() => {
-        // TODO: dispatch to another page
-        console.log('should be login');
-      })
-      .catch((message) => {
-        Alert.alert(message);
-      });
+    processLogin(this.state).catch((message) => {
+      Alert.alert(message);
+    });
   }
 
   render() {

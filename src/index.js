@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Auth from './route/auth';
+import Driver from './route/driver';
 
 const mapStateToProps = ({ auth }) => ({
   isLogin: auth.isLogin,
@@ -12,7 +13,7 @@ class App extends PureComponent {
   render() {
     const { isLogin, role } = this.props;
     if (isLogin) {
-      return role === 'driver' ? <Auth /> : <Auth />;
+      return role === 'driver' ? <Driver /> : <Auth />;
     }
     return <Auth />;
   }
@@ -24,7 +25,7 @@ App.propTypes = {
 };
 
 App.defaultProps = {
-  role: '',
+  role: 'driver',
 };
 
 export default connect(mapStateToProps)(App);

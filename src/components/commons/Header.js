@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Header, Left, Button, Icon, Body, Right, Title,
+  Header, Left, Body, Right, Title,
 } from 'native-base';
+import BackButton from './BackButton';
 import styles from './styles/Header';
 
-const Headers = ({ title, navigation }) => (
+const Headers = ({ title, navigation, sideBar }) => (
   <Header style={styles.Header}>
     <Left>
-      <Button transparent onPress={() => navigation.goBack()}>
-        <Icon name="arrow-back" />
-      </Button>
+      {sideBar ? null : <BackButton navigation={navigation} />}
     </Left>
     <Body>
       <Title>
@@ -23,6 +22,11 @@ const Headers = ({ title, navigation }) => (
 
 Headers.propTypes = {
   title: PropTypes.string.isRequired,
+  sideBar: PropTypes.bool,
+};
+
+Headers.defaultProps = {
+  sideBar: false,
 };
 
 export default Headers;
