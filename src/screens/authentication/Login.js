@@ -81,7 +81,7 @@ class Login extends Component {
               />
             </Item>
           </Form>
-          <Button style={styles.LoginButton} block>
+          <Button style={styles.LoginButton} block onPress={this.loginProcess}>
             <Text style={styles.LoginButtonText}>
               {'Login'}
             </Text>
