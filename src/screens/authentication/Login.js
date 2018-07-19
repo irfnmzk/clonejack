@@ -4,19 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Title,
-  Button,
-  Icon,
-  Right,
-  Form,
-  Item,
-  Label,
-  Input,
+  Container, Button, Icon, Form, Item, Label, Input,
 } from 'native-base';
+import Headers from '../../components/commons/Header';
 import styles from './styles/Login';
 import * as authActions from '../../actions/auth';
 
@@ -53,19 +43,7 @@ class Login extends Component {
     const { navigation, loading } = this.props;
     return (
       <Container>
-        <Header style={styles.Header}>
-          <Left>
-            <Button transparent onPress={() => navigation.goBack()}>
-              <Icon name="arrow-back" />
-            </Button>
-          </Left>
-          <Body>
-            <Title>
-              {'Login'}
-            </Title>
-          </Body>
-          <Right />
-        </Header>
+        <Headers navigation={navigation} title="Login" />
         <View style={styles.Logo}>
           <Icon name="motorcycle" type="FontAwesome" style={styles.IconLogo} />
           <Text style={styles.TextLogo}>

@@ -4,5 +4,6 @@ module.exports = {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'import/no-unresolved': 'off',
     'no-console': 'off',
+    'react/prop-types': ['error', { ignore: ['navigation'] }],
   },
 };
