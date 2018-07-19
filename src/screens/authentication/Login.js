@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import {
   Container,
@@ -16,6 +18,12 @@ import {
   Input,
 } from 'native-base';
 import styles from './styles/Login';
+import * as authActions from '../../actions/auth';
+
+const mapStateToProps = ({ loading }) => ({
+  loading: loading.loginLoading,
+});
+const mapDispatchToProps = dispatch => bindActionCreators(authActions, dispatch);
 
 class Login extends Component {
   constructor(props) {
@@ -25,16 +33,24 @@ class Login extends Component {
       email: '',
       password: '',
     };
+
     this.loginProcess = this.loginProcess.bind(this);
   }
 
   loginProcess() {
-    const { email, password } = this.state;
-    console.log(email, password);
+    const { processLogin } = this.props;
+    processLogin(this.state)
+      .then(() => {
+        // TODO: dispatch to another page
+        console.log('should be login');
+      })
+      .catch((message) => {
+        Alert.alert(message);
+      });
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, loading } = this.props;
     return (
       <Container>
         <Header style={styles.Header}>
@@ -81,9 +97,9 @@ class Login extends Component {
               />
             </Item>
           </Form>
-          <Button style={styles.LoginButton} block onPress={this.loginProcess}>
+          <Button style={styles.LoginButton} block onPress={this.loginProcess} disabled={loading}>
             <Text style={styles.LoginButtonText}>
-              {'Login'}
+              {loading ? 'Its Working...' : 'Login'}
             </Text>
           </Button>
           <Text style={styles.ForgotPassword}>
@@ -99,6 +115,11 @@ Login.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
+  processLogin: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
-export default Login;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Login);
