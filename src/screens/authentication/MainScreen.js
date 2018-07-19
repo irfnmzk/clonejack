@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Container } from 'native-base';
+import { View } from 'react-native';
+import { Container, Icon } from 'native-base';
+import styles from './styles/MainScreen';
 
-const styles = StyleSheet.create({
-  Container: {
-    backgroundColor: '#1E5578',
-  },
-});
-
-const MainScreen = () => <Container style={styles.Container} />;
+const MainScreen = () => (
+  <Container style={styles.Container}>
+    <View style={styles.Logo}>
+      <Icon name="cars" />
+    </View>
+  </Container>
+);
 
 export default MainScreen;

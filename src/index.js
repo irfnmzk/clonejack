@@ -9,7 +9,6 @@ const mapStateToProps = ({ auth }) => ({
 
 class App extends PureComponent {
   render() {
-    console.log(this.props);
     const { isLogin } = this.props;
     if (!isLogin) {
       return <Auth />;
