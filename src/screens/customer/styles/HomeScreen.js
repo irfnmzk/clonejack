@@ -1,16 +1,16 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  DriverToggleContainer: {
-    height: 50,
-    flexDirection: 'row',
+  Container: {
+    flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 15,
   },
-  DriverToggleText: {
+  BookButton: {
+    height: 70,
+  },
+  BookButtonText: {
+    color: 'white',
     fontSize: 20,
-    color: '#1E5578',
     fontWeight: 'bold',
   },
 });
