@@ -1,13 +1,16 @@
-import { createStackNavigator } from 'react-navigation';
+import React from 'react';
+import { createDrawerNavigator } from 'react-navigation';
 import Home from '../screens/driver/HomeScreen';
 
-const navigator = createStackNavigator(
+import SideBar from '../components/sidebar/SideBar';
+
+const navigator = createDrawerNavigator(
   {
     Home,
   },
   {
     initialRouteName: 'Home',
-    headerMode: 'none',
+    contentComponent: props => <SideBar {...props} />,
   },
 );
 

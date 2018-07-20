@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Container, Switch } from 'native-base';
+import MapView from 'react-native-maps';
 import styles from './styles/HomeScreen';
 import Header from '../../components/commons/Header';
-import SideBar from '../../components/sidebar/SideBar';
 
 class HomeScreen extends Component {
   constructor() {
@@ -31,13 +31,21 @@ class HomeScreen extends Component {
           title="Driver Home"
           sideBar
         />
-        <SideBar />
         <View style={styles.DriverToggleContainer}>
           <Text style={styles.DriverToggleText}>
             {'Available'}
           </Text>
           <Switch onTintColor="#1E5578" value />
         </View>
+        <MapView
+          style={{ flex: 1 }}
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.00022,
+            longitudeDelta: 0.0021,
+          }}
+        />
       </Container>
     );
   }

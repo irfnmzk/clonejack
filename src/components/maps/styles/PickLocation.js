@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   FloatingMenu: {
-    bottom: 580,
+    bottom: 535,
     backgroundColor: 'white',
     height: 50,
     marginHorizontal: 15,
