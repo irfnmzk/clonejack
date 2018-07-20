@@ -13,11 +13,4 @@ export default StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-
-  FloatingMenu: {
-    bottom: 580,
-    backgroundColor: 'red',
-    height: 50,
-    marginHorizontal: 15,
-  },
 });

@@ -4,6 +4,7 @@ import { Container, Button } from 'native-base';
 import MapView from 'react-native-maps';
 import styles from './styles/HomeScreen';
 import Header from '../../components/commons/Header';
+import PickLocation from '../../components/maps/PickLocation';
 
 class HomeScreen extends Component {
   componentWillMount() {
@@ -31,7 +32,7 @@ class HomeScreen extends Component {
             </Text>
           </Button>
         </View>
-        <View style={styles.FloatingMenu} />
+        <PickLocation />
       </Container>
     );
   }
