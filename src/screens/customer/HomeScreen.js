@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Container, Button } from 'native-base';
-import MapView from 'react-native-maps';
 import styles from './styles/HomeScreen';
+import Maps from '../../components/maps/Maps';
 import Header from '../../components/commons/Header';
 import PickLocation from '../../components/maps/PickLocation';
 
@@ -17,15 +17,7 @@ class HomeScreen extends Component {
       <Container>
         <Header navigation={navigation} title="Let's Go" sideBar />
         <View style={styles.Container}>
-          <MapView
-            style={{ height: 535 }}
-            initialRegion={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-              latitudeDelta: 0.00022,
-              longitudeDelta: 0.0021,
-            }}
-          />
+          <Maps />
           <Button block full style={styles.BookButton} disabled>
             <Text style={styles.BookButtonText}>
               {'Book Now'}

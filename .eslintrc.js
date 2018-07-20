@@ -7,4 +7,7 @@ module.exports = {
     'react/prop-types': ['error', { ignore: ['navigation'] }],
     'class-methods-use-this': 'off',
   },
+  env: {
+    browser: true,
+  },
 };

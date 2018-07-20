@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Container, Switch } from 'native-base';
-import MapView from 'react-native-maps';
+import Maps from '../../components/maps/Maps';
 import styles from './styles/HomeScreen';
 import Header from '../../components/commons/Header';
 
@@ -37,15 +37,7 @@ class HomeScreen extends Component {
           </Text>
           <Switch onTintColor="#1E5578" value />
         </View>
-        <MapView
-          style={{ flex: 1 }}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.00022,
-            longitudeDelta: 0.0021,
-          }}
-        />
+        <Maps />
       </Container>
     );
   }
