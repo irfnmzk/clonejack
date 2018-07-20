@@ -4,6 +4,7 @@ import { Container, Switch } from 'native-base';
 import Maps from '../../components/maps/Maps';
 import styles from './styles/HomeScreen';
 import Header from '../../components/commons/Header';
+import Notification from '../../components/driver/Notification';
 
 class HomeScreen extends Component {
   constructor() {
@@ -38,6 +39,7 @@ class HomeScreen extends Component {
           <Switch onTintColor="#1E5578" value />
         </View>
         <Maps />
+        <Notification />
       </Container>
     );
   }
