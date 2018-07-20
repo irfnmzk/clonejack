@@ -6,7 +6,7 @@ import { Icon, Button } from 'native-base';
 import styles from './styles/Notification';
 
 const Notification = ({ show, toggleNotification }) => (
-  <Modal isVisible={show}>
+  <Modal isVisible={show} backdropOpacity={0}>
     <View style={styles.Header}>
       <Text style={styles.HeaderText}>
         {'YOU GET NEW ORDER'}

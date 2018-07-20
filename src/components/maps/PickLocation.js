@@ -1,14 +1,26 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import PropTypes from 'prop-types';
+import { Text, TouchableOpacity } from 'react-native';
 import styles from './styles/PickLocation';
 
-export default () => (
-  <View style={styles.FloatingMenu}>
+const PickLocation = ({ disabled, onPress }) => (
+  <TouchableOpacity style={styles.FloatingMenu} onPress={onPress} disabled={disabled}>
     <Text style={styles.FloatingMenuText}>
       {'Pick Location'}
     </Text>
     <Text style={styles.FloatingMenuLocation}>
       {'Pick Location'}
     </Text>
-  </View>
+  </TouchableOpacity>
 );
+
+PickLocation.propTypes = {
+  disabled: PropTypes.bool,
+  onPress: PropTypes.func.isRequired,
+};
+
+PickLocation.defaultProps = {
+  disabled: false,
+};
+
+export default PickLocation;

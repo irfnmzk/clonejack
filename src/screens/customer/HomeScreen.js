@@ -5,10 +5,22 @@ import styles from './styles/HomeScreen';
 import Maps from '../../components/maps/Maps';
 import Header from '../../components/commons/Header';
 import PickLocation from '../../components/maps/PickLocation';
+// import GetDestination from '../../components/customer/GetDestination';
 
 class HomeScreen extends Component {
+  constructor() {
+    super();
+
+    this.openDestinationSelect = this.openDestinationSelect.bind(this);
+  }
+
   componentWillMount() {
     console.log('initial load');
+  }
+
+  openDestinationSelect() {
+    const { navigation } = this.props;
+    navigation.navigate('GetDestination');
   }
 
   render() {
@@ -24,7 +36,8 @@ class HomeScreen extends Component {
             </Text>
           </Button>
         </View>
-        <PickLocation />
+        <PickLocation onPress={this.openDestinationSelect} />
+        {/* <GetDestination /> */}
       </Container>
     );
   }

@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
         ...state,
         isLogin: true,
         user: {
-          role: 'driver',
+          role: 'customer',
           name: 'irfan',
         },
       };

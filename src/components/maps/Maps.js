@@ -39,6 +39,10 @@ class Maps extends Component {
     });
   }
 
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchId);
+  }
+
   onRegionChange(region) {
     this.setState({
       ...region,
