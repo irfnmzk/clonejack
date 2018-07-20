@@ -9,7 +9,7 @@ const PickLocation = ({ disabled, onPress }) => (
       {'Pick Location'}
     </Text>
     <Text style={styles.FloatingMenuLocation}>
-      {'Pick Location'}
+      {'Please select..'}
     </Text>
   </TouchableOpacity>
 );
