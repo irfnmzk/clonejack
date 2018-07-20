@@ -10,7 +10,12 @@ class HomeScreen extends Component {
   constructor() {
     super();
 
+    this.state = {
+      showNotification: true,
+    };
+
     this.onMenuClicked = this.onMenuClicked.bind(this);
+    this.toggleNotification = this.toggleNotification.bind(this);
   }
 
   componentWillMount() {
@@ -22,8 +27,13 @@ class HomeScreen extends Component {
     console.log(this.funcName);
   }
 
+  toggleNotification() {
+    this.setState(prev => ({ showNotification: !prev.showNotification }));
+  }
+
   render() {
     const { navigation } = this.props;
+    const { showNotification } = this.state;
     return (
       <Container>
         <Header
@@ -39,7 +49,7 @@ class HomeScreen extends Component {
           <Switch onTintColor="#1E5578" value />
         </View>
         <Maps />
-        <Notification />
+        <Notification show={showNotification} toggleNotification={this.toggleNotification} />
       </Container>
     );
   }
