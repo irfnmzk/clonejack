@@ -5,5 +5,6 @@ module.exports = {
     'import/no-unresolved': 'off',
     'no-console': 'off',
     'react/prop-types': ['error', { ignore: ['navigation'] }],
+    'class-methods-use-this': 'off',
   },
 };

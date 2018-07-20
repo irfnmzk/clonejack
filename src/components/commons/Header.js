@@ -10,7 +10,7 @@ import styles from './styles/Header';
 const Headers = ({ title, navigation, sideBar }) => (
   <Header style={styles.Header}>
     <Left>
-      {sideBar ? <SidebarButton /> : <BackButton navigation={navigation} />}
+      {sideBar ? <SidebarButton navigation={navigation} /> : <BackButton navigation={navigation} />}
     </Left>
     <Body>
       <Title>
