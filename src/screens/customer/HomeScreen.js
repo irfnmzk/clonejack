@@ -19,6 +19,7 @@ const mapStateToProps = ({ customer }) => ({
   destination: customer.ride.destination.description,
   origin: customer.ride.origin.description,
   isBooked: customer.customerUi.isBooked,
+  routeInfo: customer.ride.routeInfo,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -30,9 +31,14 @@ class HomeScreen extends Component {
   constructor() {
     super();
 
+    this.state = {
+      showRouteInfo: false,
+    };
+
     this.openDestinationSelect = this.openDestinationSelect.bind(this);
     this.openOriginSelect = this.openOriginSelect.bind(this);
     this.onBookPressed = this.onBookPressed.bind(this);
+    this.toggleRouteInfo = this.toggleRouteInfo.bind(this);
   }
 
   componentWillMount() {
@@ -55,11 +61,19 @@ class HomeScreen extends Component {
     navigation.navigate('GetDestination', { type: 'origin' });
   }
 
+  toggleRouteInfo() {
+    const { showRouteInfo } = this.state;
+    this.setState({
+      showRouteInfo: !showRouteInfo,
+    });
+  }
+
   render() {
     console.log('props', this.props);
     const {
-      navigation, destination, origin, isSelectedDest, isBooked,
+      navigation, destination, origin, isSelectedDest, isBooked, routeInfo,
     } = this.props;
+    const { showRouteInfo } = this.state;
     return (
       <Container>
         <Header navigation={navigation} title="Let's Go" sideBar />
@@ -74,11 +88,11 @@ class HomeScreen extends Component {
           isBooked={isBooked}
         />
         {isBooked ? (
-          <RequestMenu />
+          <RequestMenu infoPress={this.toggleRouteInfo} />
         ) : (
           <BookMenu disable={isSelectedDest} onPress={this.onBookPressed} />
         )}
-        <RouteInfo />
+        <RouteInfo info={routeInfo} show={showRouteInfo} onPress={this.toggleRouteInfo} />
       </Container>
     );
   }
@@ -91,6 +105,7 @@ HomeScreen.propTypes = {
   isBooked: PropTypes.bool.isRequired,
   customer: PropTypes.instanceOf(Object).isRequired,
   location: PropTypes.instanceOf(Object).isRequired,
+  routeInfo: PropTypes.instanceOf(Object).isRequired,
 };
 
 HomeScreen.defaultProps = {

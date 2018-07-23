@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import { Button, Icon } from 'native-base';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styles from './styles/requestMenu';
 
-const RequestMenu = () => (
+const RequestMenu = ({ infoPress }) => (
   <View style={styles.Contianer}>
     <View style={styles.menuContainer}>
-      <TouchableHighlight style={styles.MenuButton}>
+      <TouchableHighlight style={styles.MenuButton} onPress={infoPress}>
         <View style={styles.IconContainer}>
           <Icon name="info-circle" type="FontAwesome" style={styles.Icon} />
           <Text style={styles.MenuButtonText}>
@@ -32,6 +32,8 @@ const RequestMenu = () => (
   </View>
 );
 
-RequestMenu.propTypes = {};
+RequestMenu.propTypes = {
+  infoPress: PropTypes.func.isRequired,
+};
 
 export default RequestMenu;

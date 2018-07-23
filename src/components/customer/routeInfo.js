@@ -1,12 +1,12 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { View, Text, TouchableHighlight } from 'react-native';
 import { Icon } from 'native-base';
 import Modal from 'react-native-modal';
 import styles from './styles/routeInfo';
 
-const RouteInfo = () => (
-  <Modal isVisible>
+const RouteInfo = ({ info, show, onPress }) => (
+  <Modal isVisible={show}>
     <View style={styles.Container}>
       <View style={styles.Header}>
         <Text style={styles.HeaderText}>
@@ -20,7 +20,7 @@ const RouteInfo = () => (
             {'Distance'}
           </Text>
           <Text style={styles.BodyItemTextContent}>
-            {'6.7KM'}
+            {`${info.distance} KM`}
           </Text>
         </View>
         <View style={styles.BodyItem}>
@@ -29,7 +29,7 @@ const RouteInfo = () => (
             {'Time'}
           </Text>
           <Text style={styles.BodyItemTextContent}>
-            {'1 Minutes'}
+            {`${info.duration} Minute`}
           </Text>
         </View>
         <View style={styles.BodyItem}>
@@ -38,11 +38,11 @@ const RouteInfo = () => (
             {'Charge'}
           </Text>
           <Text style={styles.BodyItemTextContent}>
-            {'Rp. 1000'}
+            {`Rp.${info.fare}`}
           </Text>
         </View>
       </View>
-      <TouchableHighlight style={styles.Footer}>
+      <TouchableHighlight style={styles.Footer} onPress={onPress}>
         <Text style={styles.FooterText}>
           {'NICE'}
         </Text>
@@ -51,6 +51,10 @@ const RouteInfo = () => (
   </Modal>
 );
 
-RouteInfo.propTypes = {};
+RouteInfo.propTypes = {
+  info: PropTypes.instanceOf(Object).isRequired,
+  show: PropTypes.bool.isRequired,
+  onPress: PropTypes.func.isRequired,
+};
 
 export default RouteInfo;

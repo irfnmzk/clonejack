@@ -56,7 +56,7 @@ class Maps extends Component {
 
   render() {
     const {
-      locations, hasDirection, destination, origin,
+      locations, hasDirection, destination, origin, customer,
     } = this.props;
     return (
       <MapView.Animated
@@ -72,6 +72,9 @@ class Maps extends Component {
             destination={destination}
             strokeWidth={5}
             strokeColor="hotpink"
+            onReady={(data) => {
+              customer.setRouteInfo(data);
+            }}
           />
         )}
         {destination && <MapView.Marker coordinate={destination} />}

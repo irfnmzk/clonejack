@@ -2,6 +2,7 @@ import {
   SET_CUSTOMER_DESTINATION,
   SET_USER_BOOK_STATE,
   SET_CUSTOMER_ORIGIN,
+  SET_ROUTE_INFO,
 } from '../actions/constant/customer';
 
 const initialState = {
@@ -11,6 +12,11 @@ const initialState = {
     destination: {},
     rider: {},
     status: null,
+    routeInfo: {
+      distance: null,
+      duration: null,
+      fare: 0,
+    },
   },
   customerUi: {
     destinationSelected: false,
@@ -52,6 +58,14 @@ export default (state = initialState, action) => {
           ...state.customerUi,
           isBooked: true,
           hasDirection: true,
+        },
+      };
+    case SET_ROUTE_INFO:
+      return {
+        ...state,
+        ride: {
+          ...state.ride,
+          routeInfo: action.payload,
         },
       };
     default:
