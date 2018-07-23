@@ -5,8 +5,9 @@ import { View } from 'react-native';
 import { Container } from 'native-base';
 import { bindActionCreators } from 'redux';
 import * as customerAction from '../../actions/customer';
+import * as locationAction from '../../actions/location';
 import styles from './styles/HomeScreen';
-import Maps from '../../components/maps/Maps';
+import Maps from '../../components/maps/CustomerMaps';
 import Header from '../../components/commons/Header';
 import PickLocation from '../../components/maps/PickLocation';
 import RequestMenu from '../../components/customer/requestMenu';
@@ -14,17 +15,22 @@ import BookMenu from '../../components/customer/bookMenu';
 
 const mapStateToProps = ({ customer }) => ({
   isSelectedDest: customer.customerUi.destinationSelected,
-  location: customer.ride.destination.description,
+  destination: customer.ride.destination.description,
+  origin: customer.ride.origin.description,
   isBooked: customer.customerUi.isBooked,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(customerAction, dispatch);
+const mapDispatchToProps = dispatch => ({
+  customer: bindActionCreators(customerAction, dispatch),
+  location: bindActionCreators(locationAction, dispatch),
+});
 
 class HomeScreen extends Component {
   constructor() {
     super();
 
     this.openDestinationSelect = this.openDestinationSelect.bind(this);
+    this.openOriginSelect = this.openOriginSelect.bind(this);
     this.onBookPressed = this.onBookPressed.bind(this);
   }
 
@@ -33,18 +39,25 @@ class HomeScreen extends Component {
   }
 
   onBookPressed() {
-    const { toggleBookState } = this.props;
-    toggleBookState();
+    const { customer, location } = this.props;
+    customer.toggleBookState();
+    location.calculateNewRegion();
   }
 
   openDestinationSelect() {
     const { navigation } = this.props;
-    navigation.navigate('GetDestination');
+    navigation.navigate('GetDestination', { type: 'destination' });
+  }
+
+  openOriginSelect() {
+    const { navigation } = this.props;
+    navigation.navigate('GetDestination', { type: 'origin' });
   }
 
   render() {
+    console.log('props', this.props);
     const {
-      navigation, location, isSelectedDest, isBooked,
+      navigation, destination, origin, isSelectedDest, isBooked,
     } = this.props;
     return (
       <Container>
@@ -52,7 +65,13 @@ class HomeScreen extends Component {
         <View style={styles.Container}>
           <Maps />
         </View>
-        <PickLocation onPress={this.openDestinationSelect} location={location} />
+        <PickLocation
+          onDestinationPress={this.openDestinationSelect}
+          onOriginPress={this.openOriginSelect}
+          origin={origin}
+          destination={destination}
+          isBooked={isBooked}
+        />
         {isBooked ? (
           <RequestMenu />
         ) : (
@@ -64,14 +83,17 @@ class HomeScreen extends Component {
 }
 
 HomeScreen.propTypes = {
-  location: PropTypes.string,
+  destination: PropTypes.string,
+  origin: PropTypes.string,
   isSelectedDest: PropTypes.bool.isRequired,
   isBooked: PropTypes.bool.isRequired,
-  toggleBookState: PropTypes.func.isRequired,
+  customer: PropTypes.instanceOf(Object).isRequired,
+  location: PropTypes.instanceOf(Object).isRequired,
 };
 
 HomeScreen.defaultProps = {
-  location: null,
+  destination: null,
+  origin: null,
 };
 
 export default connect(

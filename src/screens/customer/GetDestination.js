@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import styles from './styles/GetDestination';
 import Header from '../../components/commons/Header';
-import { setCustomerDestination } from '../../actions/customer';
+import { setCustomerDestination, setCustomerOrigin } from '../../actions/customer';
 
 const mapStateToProps = ({ location }) => ({
   myLocation: location.userLocation,
@@ -13,6 +13,7 @@ const mapStateToProps = ({ location }) => ({
 
 const mapDispatchToProps = dispatch => ({
   setCustomerDest: loc => dispatch(setCustomerDestination(loc)),
+  setCustomerOrg: loc => dispatch(setCustomerOrigin(loc)),
 });
 
 class GetDestination extends Component {
@@ -21,14 +22,20 @@ class GetDestination extends Component {
   }
 
   render() {
-    const { navigation, myLocation, setCustomerDest } = this.props;
-    const userLocation = {
+    const {
+      navigation, myLocation, setCustomerDest, setCustomerOrg,
+    } = this.props;
+    const type = navigation.getParam('type');
+    let userLocation = {
       description: 'Use My Location',
       geometry: { location: { lat: myLocation.latitude, lng: myLocation.longtitude } },
     };
+    if (type !== 'origin') {
+      userLocation = null;
+    }
     return (
       <Container>
-        <Header navigation={navigation} title="Destination" />
+        <Header navigation={navigation} title={type === 'origin' ? 'Origin' : 'Destination'} />
         <GooglePlacesAutocomplete
           placeholder="Enter Location"
           minLength={3}
@@ -41,8 +48,18 @@ class GetDestination extends Component {
             types: 'geocode',
           }}
           onPress={(data, detail) => {
-            const place = { description: data.description, location: detail.geometry.location };
-            setCustomerDest(place);
+            const place = {
+              description: data.description,
+              location: {
+                latitude: detail.geometry.location.lat,
+                longitude: detail.geometry.location.lng,
+              },
+            };
+            if (type === 'origin') {
+              setCustomerOrg(place);
+            } else {
+              setCustomerDest(place);
+            }
             navigation.goBack();
           }}
           predefinedPlaces={[userLocation]}
@@ -56,6 +73,7 @@ class GetDestination extends Component {
 GetDestination.propTypes = {
   myLocation: PropTypes.instanceOf(Object).isRequired,
   setCustomerDest: PropTypes.func.isRequired,
+  setCustomerOrg: PropTypes.func.isRequired,
 };
 
 export default connect(

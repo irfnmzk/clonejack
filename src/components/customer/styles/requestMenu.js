@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   Contianer: {
     flex: 1,
-    bottom: 223,
+    bottom: 160,
     justifyContent: 'space-between',
   },
   menuContainer: {
@@ -14,7 +14,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderColor: '#1E5578',
-    borderWidth: 1,
+    borderWidth: 0.6,
     height: 50,
     backgroundColor: 'white',
   },
