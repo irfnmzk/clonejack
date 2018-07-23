@@ -10,6 +10,7 @@ const initialState = {
   },
   customerUi: {
     destinationSelected: false,
+    isBooked: false,
   },
 };
 

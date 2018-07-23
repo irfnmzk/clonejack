@@ -17,13 +17,6 @@ class Maps extends Component {
   constructor() {
     super();
 
-    this.state = {
-      latitude: 37.78825,
-      longitude: -122.4324,
-      latitudeDelta: 0.00022,
-      longitudeDelta: 0.0021,
-    };
-
     this.onRegionChange = this.onRegionChange.bind(this);
   }
 
@@ -38,32 +31,25 @@ class Maps extends Component {
 
   componentDidMount() {
     this.watchID = navigator.geolocation.watchPosition((position) => {
-      const region = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        latitudeDelta: 0.00922 * 1.5,
-        longitudeDelta: 0.00421 * 1.5,
-      };
-      this.onRegionChange(region, region.latitude, region.longitude);
+      const { accuracy, latitude, longitude } = position.coords;
+      const region = getRegionFrom(latitude, longitude, accuracy);
+      this.onRegionChange(region);
     });
-  }
-
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchId);
   }
 
   onRegionChange(region) {
-    this.setState({
-      ...region,
-    });
+    const { setUserRegion } = this.props;
+    setUserRegion(region);
   }
 
   render() {
+    const { location } = this.props;
+    console.log(location.region);
     return (
       <MapView
-        style={{ height: '97%' }}
+        style={{ height: '100%' }}
         showsUserLocation
-        region={{ ...this.state }}
+        region={{ ...location.region }}
         onPress={e => console.log(e.nativeEvent.coordinate)}
       />
     );
@@ -72,6 +58,7 @@ class Maps extends Component {
 
 Maps.propTypes = {
   setUserRegion: PropTypes.func.isRequired,
+  location: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default connect(

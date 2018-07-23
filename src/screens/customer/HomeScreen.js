@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { Container, Button } from 'native-base';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { View } from 'react-native';
+import { Container } from 'native-base';
 import styles from './styles/HomeScreen';
 import Maps from '../../components/maps/Maps';
 import Header from '../../components/commons/Header';
 import PickLocation from '../../components/maps/PickLocation';
-// import GetDestination from '../../components/customer/GetDestination';
+import RequestMenu from '../../components/customer/requestMenu';
+import BookMenu from '../../components/customer/bookMenu';
+
+const mapStateToProps = ({ customer }) => ({
+  isSelectedDest: customer.customerUi.destinationSelected,
+  location: customer.ride.destination.description,
+  isBooked: customer.customerUi.isBooked,
+});
 
 class HomeScreen extends Component {
   constructor() {
@@ -24,23 +33,30 @@ class HomeScreen extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const {
+      navigation, location, isSelectedDest, isBooked,
+    } = this.props;
     return (
       <Container>
         <Header navigation={navigation} title="Let's Go" sideBar />
         <View style={styles.Container}>
           <Maps />
-          <Button block full style={styles.BookButton} disabled>
-            <Text style={styles.BookButtonText}>
-              {'Book Now'}
-            </Text>
-          </Button>
         </View>
-        <PickLocation onPress={this.openDestinationSelect} />
-        {/* <GetDestination /> */}
+        <PickLocation onPress={this.openDestinationSelect} location={location} />
+        {isBooked ? <RequestMenu /> : <BookMenu disable={isSelectedDest} />}
       </Container>
     );
   }
 }
 
-export default HomeScreen;
+HomeScreen.propTypes = {
+  location: PropTypes.string,
+  isSelectedDest: PropTypes.bool.isRequired,
+  isBooked: PropTypes.bool.isRequired,
+};
+
+HomeScreen.defaultProps = {
+  location: null,
+};
+
+export default connect(mapStateToProps)(HomeScreen);
