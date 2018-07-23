@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Text } from 'react-native';
+// import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
 import { connect } from 'react-redux';

@@ -11,6 +11,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         region: action.payload,
+        userLocation: action.payload,
       };
     default:
       return state;

@@ -6,7 +6,7 @@ import styles from './styles/PickLocation';
 const PickLocation = ({ disabled, onPress }) => (
   <TouchableOpacity style={styles.FloatingMenu} onPress={onPress} disabled={disabled}>
     <Text style={styles.FloatingMenuText}>
-      {'Pick Location'}
+      {'Select destination'}
     </Text>
     <Text style={styles.FloatingMenuLocation}>
       {'Please select..'}
