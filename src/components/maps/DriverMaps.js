@@ -4,21 +4,15 @@ import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import MapViewDirections from 'react-native-maps-directions';
 import * as locationAction from '../../actions/location';
-import * as customerAction from '../../actions/customer';
 import { getRegionFrom } from '../../utils/MapsRegion';
 
-const mapStateToProps = ({ location, customer }) => ({
+const mapStateToProps = ({ location }) => ({
   locations: location,
-  destination: customer.ride.destination.location,
-  origin: customer.ride.origin.location,
-  hasDirection: customer.customerUi.hasDirection,
 });
 
 const mapDispatchToProps = dispatch => ({
   location: bindActionCreators(locationAction, dispatch),
-  customer: bindActionCreators(customerAction, dispatch),
 });
 
 class Maps extends Component {
@@ -29,15 +23,11 @@ class Maps extends Component {
   }
 
   componentWillMount() {
-    const { location, customer } = this.props;
+    const { location } = this.props;
     navigator.geolocation.getCurrentPosition((position) => {
       const { accuracy, latitude, longitude } = position.coords;
       const data = getRegionFrom(latitude, longitude, accuracy);
       location.setUserRegion(data);
-      customer.setCustomerOrigin({
-        description: 'My Location',
-        location: { latitude: data.latitude, longitude: data.longitude },
-      });
     });
   }
 
@@ -55,44 +45,24 @@ class Maps extends Component {
   }
 
   render() {
-    const {
-      locations, hasDirection, destination, origin,
-    } = this.props;
+    const { locations } = this.props;
     return (
       <MapView.Animated
         style={{ height: '100%' }}
         showsUserLocation
         region={new MapView.AnimatedRegion({ ...locations.region })}
         onPress={e => console.log(e.nativeEvent.coordinate)}
-      >
-        {hasDirection && (
-          <MapViewDirections
-            apikey="AIzaSyDc63AZDDPycmk1Vc9hmskLZvu1AbWIAbk"
-            origin={origin}
-            destination={destination}
-            strokeWidth={5}
-            strokeColor="hotpink"
-          />
-        )}
-        {destination && <MapView.Marker coordinate={destination} />}
-      </MapView.Animated>
+      />
     );
   }
 }
 
 Maps.propTypes = {
   locations: PropTypes.instanceOf(Object).isRequired,
-  destination: PropTypes.instanceOf(Object),
-  origin: PropTypes.instanceOf(Object),
   location: PropTypes.instanceOf(Object).isRequired,
-  customer: PropTypes.instanceOf(Object).isRequired,
-  hasDirection: PropTypes.bool.isRequired,
 };
 
-Maps.defaultProps = {
-  destination: { latitude: 1, longitude: 1 },
-  origin: { latitude: 1, longitude: 1 },
-};
+Maps.defaultProps = {};
 
 export default connect(
   mapStateToProps,

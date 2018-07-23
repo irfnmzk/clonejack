@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Container, Switch } from 'native-base';
-import Maps from '../../components/maps/CustomerMaps';
+import Maps from '../../components/maps/DriverMaps';
 import styles from './styles/HomeScreen';
 import Header from '../../components/commons/Header';
 import Notification from '../../components/driver/Notification';

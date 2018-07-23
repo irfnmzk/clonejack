@@ -12,6 +12,7 @@ import Header from '../../components/commons/Header';
 import PickLocation from '../../components/maps/PickLocation';
 import RequestMenu from '../../components/customer/requestMenu';
 import BookMenu from '../../components/customer/bookMenu';
+import RouteInfo from '../../components/customer/routeInfo';
 
 const mapStateToProps = ({ customer }) => ({
   isSelectedDest: customer.customerUi.destinationSelected,
@@ -77,6 +78,7 @@ class HomeScreen extends Component {
         ) : (
           <BookMenu disable={isSelectedDest} onPress={this.onBookPressed} />
         )}
+        <RouteInfo />
       </Container>
     );
   }
