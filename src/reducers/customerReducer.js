@@ -1,4 +1,4 @@
-import { SET_CUSTOMER_DESTINATION } from '../actions/constant/customer';
+import { SET_CUSTOMER_DESTINATION, SET_USER_BOOK_STATE } from '../actions/constant/customer';
 
 const initialState = {
   hasRide: false,
@@ -28,7 +28,14 @@ export default (state = initialState, action) => {
           destinationSelected: true,
         },
       };
-
+    case SET_USER_BOOK_STATE:
+      return {
+        ...state,
+        customerUi: {
+          ...state.customerUi,
+          isBooked: true,
+        },
+      };
     default:
       return state;
   }

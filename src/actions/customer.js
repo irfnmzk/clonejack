@@ -1,10 +1,10 @@
-import { SET_CUSTOMER_DESTINATION, DEL_CUSTOMER_DESTINATION } from './constant/customer';
+import { SET_CUSTOMER_DESTINATION, SET_USER_BOOK_STATE } from './constant/customer';
 
 export const setCustomerDestination = location => ({
   type: SET_CUSTOMER_DESTINATION,
   payload: location,
 });
 
-export const tes = () => ({
-  type: DEL_CUSTOMER_DESTINATION,
+export const toggleBookState = () => ({
+  type: SET_USER_BOOK_STATE,
 });

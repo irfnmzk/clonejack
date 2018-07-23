@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Container } from 'native-base';
+import { bindActionCreators } from 'redux';
+import * as customerAction from '../../actions/customer';
 import styles from './styles/HomeScreen';
 import Maps from '../../components/maps/Maps';
 import Header from '../../components/commons/Header';
@@ -16,15 +18,23 @@ const mapStateToProps = ({ customer }) => ({
   isBooked: customer.customerUi.isBooked,
 });
 
+const mapDispatchToProps = dispatch => bindActionCreators(customerAction, dispatch);
+
 class HomeScreen extends Component {
   constructor() {
     super();
 
     this.openDestinationSelect = this.openDestinationSelect.bind(this);
+    this.onBookPressed = this.onBookPressed.bind(this);
   }
 
   componentWillMount() {
     console.log('initial load');
+  }
+
+  onBookPressed() {
+    const { toggleBookState } = this.props;
+    toggleBookState();
   }
 
   openDestinationSelect() {
@@ -43,7 +53,11 @@ class HomeScreen extends Component {
           <Maps />
         </View>
         <PickLocation onPress={this.openDestinationSelect} location={location} />
-        {isBooked ? <RequestMenu /> : <BookMenu disable={isSelectedDest} />}
+        {isBooked ? (
+          <RequestMenu />
+        ) : (
+          <BookMenu disable={isSelectedDest} onPress={this.onBookPressed} />
+        )}
       </Container>
     );
   }
@@ -53,10 +67,14 @@ HomeScreen.propTypes = {
   location: PropTypes.string,
   isSelectedDest: PropTypes.bool.isRequired,
   isBooked: PropTypes.bool.isRequired,
+  toggleBookState: PropTypes.func.isRequired,
 };
 
 HomeScreen.defaultProps = {
   location: null,
 };
 
-export default connect(mapStateToProps)(HomeScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HomeScreen);
