@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { Container, Button } from 'native-base';
+import { Container } from 'native-base';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import styles from './styles/GetDestination';
 import Header from '../../components/commons/Header';

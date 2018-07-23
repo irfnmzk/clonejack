@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 // import { Text } from 'react-native';
+import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as locationAction from '../../actions/location';
 import { getRegionFrom } from '../../utils/MapsRegion';
+
+const mapStateToProps = ({ location }) => ({
+  location,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(locationAction, dispatch);
 
 class Maps extends Component {
   constructor() {
@@ -18,12 +28,11 @@ class Maps extends Component {
   }
 
   componentWillMount() {
+    const { setUserRegion } = this.props;
     navigator.geolocation.getCurrentPosition((position) => {
       const { accuracy, latitude, longitude } = position.coords;
       const data = getRegionFrom(latitude, longitude, accuracy);
-      this.setState({
-        ...data,
-      });
+      setUserRegion(data);
     });
   }
 
@@ -50,8 +59,22 @@ class Maps extends Component {
   }
 
   render() {
-    return <MapView style={{ height: '97%' }} showsUserLocation region={{ ...this.state }} />;
+    return (
+      <MapView
+        style={{ height: '97%' }}
+        showsUserLocation
+        region={{ ...this.state }}
+        onPress={e => console.log(e.nativeEvent.coordinate)}
+      />
+    );
   }
 }
 
-export default Maps;
+Maps.propTypes = {
+  setUserRegion: PropTypes.func.isRequired,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Maps);
