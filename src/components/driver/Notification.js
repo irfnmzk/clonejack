@@ -5,7 +5,9 @@ import { View, Text } from 'react-native';
 import { Icon, Button } from 'native-base';
 import styles from './styles/Notification';
 
-const Notification = ({ show, toggleNotification, count }) => (
+const Notification = ({
+  show, toggleNotification, count, data,
+}) => (
   <Modal isVisible={show} backdropOpacity={0}>
     <View style={styles.Header}>
       <Text style={styles.HeaderText}>
@@ -21,7 +23,7 @@ const Notification = ({ show, toggleNotification, count }) => (
       </View>
       <View style={styles.AddressContainer}>
         <Text style={styles.AddressText}>
-          {'Gedung Graha Vidya Chandra'}
+          {data.destination ? data.destination.description : 'Loading'}
         </Text>
       </View>
       <View style={styles.ButtonContainer}>
@@ -48,6 +50,7 @@ Notification.propTypes = {
   show: PropTypes.bool.isRequired,
   toggleNotification: PropTypes.func.isRequired,
   count: PropTypes.number.isRequired,
+  data: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default Notification;

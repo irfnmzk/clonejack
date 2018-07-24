@@ -38,10 +38,12 @@ export default StyleSheet.create({
     marginBottom: 20,
     marginTop: 20,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   AddressText: {
     fontSize: 17,
     color: 'white',
+    alignSelf: 'center',
   },
   ButtonContainer: {
     flexDirection: 'row',

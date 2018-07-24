@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { Container, Switch } from 'native-base';
+import { View } from 'react-native';
+import { Container } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -8,12 +8,15 @@ import Pusher from 'pusher-js/react-native';
 import timer from 'react-native-timer';
 import * as driverAction from '../../actions/driver';
 import Maps from '../../components/maps/DriverMaps';
-import styles from './styles/HomeScreen';
 import Header from '../../components/commons/Header';
 import Notification from '../../components/driver/Notification';
+import StandBy from '../../components/driver/StandBy';
+import Direction from '../../components/driver/Direction';
 
 const mapStateToProps = ({ driver }) => ({
   drivers: driver,
+  rideData: driver.ride,
+  hasPassenger: driver.hasPassenger,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -98,21 +101,23 @@ class HomeScreen extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, hasPassenger, rideData } = this.props;
     const { showNotification, count, avaiable } = this.state;
     return (
       <Container>
         <Header navigation={navigation} title="Driver Home" sideBar />
-        <View style={styles.DriverToggleContainer}>
-          <Text style={styles.DriverToggleText}>
-            {'Avaiable'}
-          </Text>
-          <Switch onTintColor="#1E5578" value={avaiable} onValueChange={this.toggleAvaiable} />
+        {hasPassenger ? (
+          <Direction />
+        ) : (
+          <StandBy avaiable={avaiable} toggle={this.toggleAvaiable} />
+        )}
+        <View>
+          <Maps />
         </View>
-        <Maps />
         <Notification
           show={showNotification}
           toggleNotification={this.toggleNotification}
+          data={rideData}
           count={count}
         />
       </Container>
@@ -122,6 +127,8 @@ class HomeScreen extends Component {
 
 HomeScreen.propTypes = {
   driver: PropTypes.instanceOf(Object).isRequired,
+  rideData: PropTypes.instanceOf(Object).isRequired,
+  hasPassenger: PropTypes.bool.isRequired,
 };
 
 export default connect(
