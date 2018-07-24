@@ -22,6 +22,7 @@ const mapStateToProps = ({ customer }) => ({
   isBooked: customer.customerUi.isBooked,
   routeInfo: customer.ride.routeInfo,
   isSearching: customer.searchingDriver,
+  ride: customer.ride,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -85,9 +86,8 @@ class HomeScreen extends Component {
   }
 
   requestDriver() {
-    const {
-      origin, destination, routeInfo, customer,
-    } = this.props;
+    const { ride, routeInfo, customer } = this.props;
+    const { origin, destination } = ride;
     this.driver.trigger('client-request-driver', {
       origin,
       destination,
@@ -98,13 +98,7 @@ class HomeScreen extends Component {
 
   render() {
     const {
-      navigation,
-      destination,
-      origin,
-      isSelectedDest,
-      isBooked,
-      routeInfo,
-      isSearching,
+      navigation, destination, origin, isSelectedDest, isBooked, routeInfo,
     } = this.props;
     const { showRouteInfo } = this.state;
     return (
@@ -124,7 +118,7 @@ class HomeScreen extends Component {
           <RequestMenu
             infoPress={this.toggleRouteInfo}
             requestPress={this.requestDriver}
-            disable={isSearching}
+            disable={false}
           />
         ) : (
           <BookMenu disable={isSelectedDest} onPress={this.onBookPressed} />
@@ -143,7 +137,7 @@ HomeScreen.propTypes = {
   customer: PropTypes.instanceOf(Object).isRequired,
   location: PropTypes.instanceOf(Object).isRequired,
   routeInfo: PropTypes.instanceOf(Object).isRequired,
-  isSearching: PropTypes.bool.isRequired,
+  ride: PropTypes.instanceOf(Object).isRequired,
 };
 
 HomeScreen.defaultProps = {

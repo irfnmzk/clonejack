@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Container, Switch } from 'native-base';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import Pusher from 'pusher-js/react-native';
 import timer from 'react-native-timer';
+import * as driverAction from '../../actions/driver';
 import Maps from '../../components/maps/DriverMaps';
 import styles from './styles/HomeScreen';
 import Header from '../../components/commons/Header';
 import Notification from '../../components/driver/Notification';
+
+const mapStateToProps = ({ driver }) => ({
+  drivers: driver,
+});
+
+const mapDispatchToProps = dispatch => ({
+  driver: bindActionCreators(driverAction, dispatch),
+});
 
 Pusher.logToConsole = true;
 
@@ -17,6 +29,7 @@ class HomeScreen extends Component {
     this.state = {
       showNotification: false,
       count: 10,
+      avaiable: false,
     };
 
     // Pusher data
@@ -25,9 +38,11 @@ class HomeScreen extends Component {
     this.ride = null;
 
     this.toggleNotification = this.toggleNotification.bind(this);
+    this.toggleAvaiable = this.toggleAvaiable.bind(this);
   }
 
   componentWillMount() {
+    const { driver } = this.props;
     this.pusher = new Pusher('d5e8162e2071d516fe7b', {
       authEndpoint: 'https://pusher-channels-auth-example-hdzhdqknhl.now.sh/pusher/auth',
       cluster: 'ap1',
@@ -37,10 +52,11 @@ class HomeScreen extends Component {
     this.driver = this.pusher.subscribe('private-drivers');
 
     this.driver.bind('client-request-driver', (data) => {
-      // TODO: HANDLE CLIENT REQUEST DRIVER
-      console.log(data);
-      const { showNotification } = this.state;
-      if (!showNotification) this.showNotification();
+      const { showNotification, avaiable } = this.state;
+      if (!showNotification && avaiable) {
+        driver.setPassenger(data);
+        this.showNotification();
+      }
     });
   }
 
@@ -76,9 +92,14 @@ class HomeScreen extends Component {
     this.clearCountNotification();
   }
 
+  toggleAvaiable() {
+    console.log('pressed');
+    this.setState(prev => ({ avaiable: !prev.avaiable }));
+  }
+
   render() {
     const { navigation } = this.props;
-    const { showNotification, count } = this.state;
+    const { showNotification, count, avaiable } = this.state;
     return (
       <Container>
         <Header navigation={navigation} title="Driver Home" sideBar />
@@ -86,7 +107,7 @@ class HomeScreen extends Component {
           <Text style={styles.DriverToggleText}>
             {'Avaiable'}
           </Text>
-          <Switch onTintColor="#1E5578" value />
+          <Switch onTintColor="#1E5578" value={avaiable} onValueChange={this.toggleAvaiable} />
         </View>
         <Maps />
         <Notification
@@ -99,4 +120,11 @@ class HomeScreen extends Component {
   }
 }
 
-export default HomeScreen;
+HomeScreen.propTypes = {
+  driver: PropTypes.instanceOf(Object).isRequired,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HomeScreen);

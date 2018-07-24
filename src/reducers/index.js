@@ -3,12 +3,14 @@ import auth from './authReducer';
 import loading from './loadingReducer';
 import location from './locationReducer';
 import customer from './customerReducer';
+import driver from './driverReducer';
 
 const root = combineReducers({
   auth,
   loading,
   location,
   customer,
+  driver,
 });
 
 export default root;
