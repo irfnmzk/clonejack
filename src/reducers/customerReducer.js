@@ -3,10 +3,12 @@ import {
   SET_USER_BOOK_STATE,
   SET_CUSTOMER_ORIGIN,
   SET_ROUTE_INFO,
+  CUSTOMER_SEARCH_DRIVER,
 } from '../actions/constant/customer';
 
 const initialState = {
   hasRide: false,
+  searchingDriver: false,
   ride: {
     origin: {},
     destination: {},
@@ -67,6 +69,11 @@ export default (state = initialState, action) => {
           ...state.ride,
           routeInfo: action.payload,
         },
+      };
+    case CUSTOMER_SEARCH_DRIVER:
+      return {
+        ...state,
+        searchingDriver: true,
       };
     default:
       return state;

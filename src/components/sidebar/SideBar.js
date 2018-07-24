@@ -15,10 +15,6 @@ class SideBar extends PureComponent {
     ];
   }
 
-  componentWillMount() {
-    console.log('initila');
-  }
-
   renderMenuItem(route) {
     return (
       <View style={styles.ItemMenuContainer} key={route.key}>

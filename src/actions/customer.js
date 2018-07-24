@@ -3,6 +3,7 @@ import {
   SET_USER_BOOK_STATE,
   SET_CUSTOMER_ORIGIN,
   SET_ROUTE_INFO,
+  CUSTOMER_SEARCH_DRIVER,
 } from './constant/customer';
 
 export const setCustomerDestination = location => ({
@@ -31,3 +32,7 @@ export const setRouteInfo = (data) => {
     },
   };
 };
+
+export const searchDriver = () => ({
+  type: CUSTOMER_SEARCH_DRIVER,
+});

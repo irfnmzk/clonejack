@@ -4,7 +4,7 @@ import { Button, Icon } from 'native-base';
 import PropTypes from 'prop-types';
 import styles from './styles/requestMenu';
 
-const RequestMenu = ({ infoPress }) => (
+const RequestMenu = ({ infoPress, requestPress, disable }) => (
   <View style={styles.Contianer}>
     <View style={styles.menuContainer}>
       <TouchableHighlight style={styles.MenuButton} onPress={infoPress}>
@@ -24,9 +24,9 @@ const RequestMenu = ({ infoPress }) => (
         </View>
       </TouchableHighlight>
     </View>
-    <Button block full style={styles.BookButton}>
+    <Button block full style={styles.BookButton} onPress={requestPress} disabled={disable}>
       <Text style={styles.BookButtonText}>
-        {'Request Driver'}
+        {disable ? 'Please Wait..' : 'Request Driver'}
       </Text>
     </Button>
   </View>
@@ -34,6 +34,8 @@ const RequestMenu = ({ infoPress }) => (
 
 RequestMenu.propTypes = {
   infoPress: PropTypes.func.isRequired,
+  requestPress: PropTypes.func.isRequired,
+  disable: PropTypes.bool.isRequired,
 };
 
 export default RequestMenu;

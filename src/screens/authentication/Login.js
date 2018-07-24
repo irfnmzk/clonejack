@@ -55,6 +55,7 @@ class Login extends Component {
                 placeholder="Email"
                 placeholderTextColor="grey"
                 onChangeText={email => this.setState({ email })}
+                autoCapitalize="none"
               />
             </Item>
             <View style={styles.InputSeparator} />
@@ -67,6 +68,7 @@ class Login extends Component {
                 placeholderTextColor="grey"
                 secureTextEntry
                 onChangeText={password => this.setState({ password })}
+                autoCapitalize="none"
               />
             </Item>
           </Form>

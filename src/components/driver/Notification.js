@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 import { Icon, Button } from 'native-base';
 import styles from './styles/Notification';
 
-const Notification = ({ show, toggleNotification }) => (
+const Notification = ({ show, toggleNotification, count }) => (
   <Modal isVisible={show} backdropOpacity={0}>
     <View style={styles.Header}>
       <Text style={styles.HeaderText}>
@@ -16,7 +16,7 @@ const Notification = ({ show, toggleNotification }) => (
       <Icon name="motorbike" type="MaterialCommunityIcons" style={styles.Icon} />
       <View style={styles.TimerContainer}>
         <Text style={styles.TimerText}>
-          {'10 Seconds'}
+          {count === 0 ? 'You are late' : `${count} Seconds`}
         </Text>
       </View>
       <View style={styles.AddressContainer}>
@@ -47,6 +47,7 @@ const Notification = ({ show, toggleNotification }) => (
 Notification.propTypes = {
   show: PropTypes.bool.isRequired,
   toggleNotification: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
 };
 
 export default Notification;

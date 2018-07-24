@@ -12,8 +12,7 @@ export default (state = initialState, action) => {
         ...state,
         isLogin: true,
         user: {
-          role: 'customer',
-          name: 'irfan',
+          ...action.payload.user,
         },
       };
     default:
