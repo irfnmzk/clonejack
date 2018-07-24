@@ -47,7 +47,7 @@ export default StyleSheet.create({
   },
   ButtonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
     paddingHorizontal: 20,
@@ -59,6 +59,7 @@ export default StyleSheet.create({
     shadowOffset: { width: 0.1, height: 0.1 },
     shadowColor: 'black',
     shadowOpacity: 0.5,
+    marginHorizontal: 20,
   },
   ButtonText: {
     fontSize: 17,

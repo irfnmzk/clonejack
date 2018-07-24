@@ -33,6 +33,7 @@ class HomeScreen extends Component {
       showNotification: false,
       count: 10,
       avaiable: false,
+      disableAccept: false,
     };
 
     // Pusher data
@@ -42,6 +43,7 @@ class HomeScreen extends Component {
 
     this.toggleNotification = this.toggleNotification.bind(this);
     this.toggleAvaiable = this.toggleAvaiable.bind(this);
+    this.acceptOrder = this.acceptOrder.bind(this);
   }
 
   componentWillMount() {
@@ -84,9 +86,15 @@ class HomeScreen extends Component {
     );
   }
 
+  acceptOrder() {
+    this.setState({
+      disableAccept: true,
+    });
+  }
+
   clearCountNotification() {
     this.setState(
-      prev => ({ showNotification: !prev.showNotification, count: 10 }),
+      prev => ({ showNotification: !prev.showNotification, count: 10, disableAccept: false }),
       () => timer.clearInterval('count'),
     );
   }
@@ -102,7 +110,9 @@ class HomeScreen extends Component {
 
   render() {
     const { navigation, hasPassenger, rideData } = this.props;
-    const { showNotification, count, avaiable } = this.state;
+    const {
+      showNotification, count, avaiable, disableAccept,
+    } = this.state;
     return (
       <Container>
         <Header navigation={navigation} title="Driver Home" sideBar />
@@ -117,6 +127,8 @@ class HomeScreen extends Component {
         <Notification
           show={showNotification}
           toggleNotification={this.toggleNotification}
+          onAccept={this.acceptOrder}
+          disableAccept={disableAccept}
           data={rideData}
           count={count}
         />

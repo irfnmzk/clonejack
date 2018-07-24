@@ -15,7 +15,7 @@ import RequestMenu from '../../components/customer/requestMenu';
 import BookMenu from '../../components/customer/bookMenu';
 import RouteInfo from '../../components/customer/routeInfo';
 
-const mapStateToProps = ({ customer }) => ({
+const mapStateToProps = ({ customer, auth }) => ({
   isSelectedDest: customer.customerUi.destinationSelected,
   destination: customer.ride.destination.description,
   origin: customer.ride.origin.description,
@@ -23,6 +23,7 @@ const mapStateToProps = ({ customer }) => ({
   routeInfo: customer.ride.routeInfo,
   isSearching: customer.searchingDriver,
   ride: customer.ride,
+  user: auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -53,6 +54,8 @@ class HomeScreen extends Component {
   }
 
   componentWillMount() {
+    const { user } = this.props;
+
     this.pusher = new Pusher('d5e8162e2071d516fe7b', {
       authEndpoint: 'https://pusher-channels-auth-example-hdzhdqknhl.now.sh/pusher/auth',
       cluster: 'ap1',
@@ -60,6 +63,7 @@ class HomeScreen extends Component {
     });
 
     this.driver = this.pusher.subscribe('private-drivers');
+    this.ride = this.pusher.subscribe(`private-rides-${user.email}`);
   }
 
   onBookPressed() {
@@ -86,12 +90,15 @@ class HomeScreen extends Component {
   }
 
   requestDriver() {
-    const { ride, routeInfo, customer } = this.props;
+    const {
+      ride, routeInfo, customer, user,
+    } = this.props;
     const { origin, destination } = ride;
     this.driver.trigger('client-request-driver', {
       origin,
       destination,
       routeInfo,
+      passenger: { email: user.email },
     });
     customer.searchDriver();
   }
@@ -138,6 +145,7 @@ HomeScreen.propTypes = {
   location: PropTypes.instanceOf(Object).isRequired,
   routeInfo: PropTypes.instanceOf(Object).isRequired,
   ride: PropTypes.instanceOf(Object).isRequired,
+  user: PropTypes.instanceOf(Object).isRequired,
 };
 
 HomeScreen.defaultProps = {

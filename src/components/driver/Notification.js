@@ -6,7 +6,7 @@ import { Icon, Button } from 'native-base';
 import styles from './styles/Notification';
 
 const Notification = ({
-  show, toggleNotification, count, data,
+  show, toggleNotification, count, data, onAccept, disableAccept,
 }) => (
   <Modal isVisible={show} backdropOpacity={0}>
     <View style={styles.Header}>
@@ -27,18 +27,25 @@ const Notification = ({
         </Text>
       </View>
       <View style={styles.ButtonContainer}>
+        {disableAccept ? null : (
+          <Button
+            block
+            style={[styles.Button, { backgroundColor: '#FC0D1C' }]}
+            onPress={toggleNotification}
+          >
+            <Text style={styles.ButtonText}>
+              {'REJECT'}
+            </Text>
+          </Button>
+        )}
         <Button
           block
-          style={[styles.Button, { backgroundColor: '#FC0D1C' }]}
-          onPress={toggleNotification}
+          style={[styles.Button, { backgroundColor: '#21C1D5' }]}
+          onPress={onAccept}
+          disabled={disableAccept}
         >
           <Text style={styles.ButtonText}>
-            {'REJECT'}
-          </Text>
-        </Button>
-        <Button block style={[styles.Button, { backgroundColor: '#21C1D5' }]}>
-          <Text style={styles.ButtonText}>
-            {'ACCEPT'}
+            {disableAccept ? 'Please wait..' : 'ACCEPT'}
           </Text>
         </Button>
       </View>
@@ -51,6 +58,8 @@ Notification.propTypes = {
   toggleNotification: PropTypes.func.isRequired,
   count: PropTypes.number.isRequired,
   data: PropTypes.instanceOf(Object).isRequired,
+  onAccept: PropTypes.func.isRequired,
+  disableAccept: PropTypes.bool.isRequired,
 };
 
 export default Notification;
