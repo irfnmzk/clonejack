@@ -15,6 +15,7 @@ import RequestMenu from '../../components/customer/requestMenu';
 import BookMenu from '../../components/customer/bookMenu';
 import RouteInfo from '../../components/customer/routeInfo';
 import RideState from '../../components/customer/rideState';
+import RideMenu from '../../components/customer/rideMenu';
 
 const mapStateToProps = ({ customer, auth }) => ({
   isSelectedDest: customer.customerUi.destinationSelected,
@@ -48,6 +49,7 @@ class HomeScreen extends Component {
     this.ride = null;
     this.pusher = null;
 
+    // I don't know why but i like to bind everything
     this.openDestinationSelect = this.openDestinationSelect.bind(this);
     this.openOriginSelect = this.openOriginSelect.bind(this);
     this.onBookPressed = this.onBookPressed.bind(this);
@@ -156,7 +158,7 @@ class HomeScreen extends Component {
             isBooked={isBooked}
           />
         )}
-        {hasRide ? null : this.renderBookMenu()}
+        {!hasRide ? <RideMenu /> : this.renderBookMenu()}
         <RouteInfo info={routeInfo} show={showRouteInfo} onPress={this.toggleRouteInfo} />
       </Container>
     );
