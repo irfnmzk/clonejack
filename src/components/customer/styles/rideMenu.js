@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { MAIN_BLUE } from '../../configs/color';
+import { LIGHT_GREY } from '../../../configs/color';
 
 export default StyleSheet.create({
   Container: {
@@ -52,7 +53,7 @@ export default StyleSheet.create({
     backgroundColor: MAIN_BLUE,
   },
   ButtonCancel: {
-    backgroundColor: '#EDEDED',
+    backgroundColor: LIGHT_GREY,
   },
   Text: {
     fontSize: 18,

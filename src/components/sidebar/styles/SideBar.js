@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { DARK_PURPLE } from '../../../configs/color';
 
 export default StyleSheet.create({
   Container: {
@@ -7,7 +8,7 @@ export default StyleSheet.create({
   },
   ProfileContainer: {
     height: 260,
-    backgroundColor: '#0D3953',
+    backgroundColor: DARK_PURPLE,
   },
   MenuContainer: {
     backgroundColor: '#1F5679',
@@ -15,7 +16,7 @@ export default StyleSheet.create({
   },
   ItemMenuContainer: {
     height: 50,
-    borderBottomColor: '#0D3953',
+    borderBottomColor: DARK_PURPLE,
     borderBottomWidth: 1,
     paddingHorizontal: 30,
     flexDirection: 'row',

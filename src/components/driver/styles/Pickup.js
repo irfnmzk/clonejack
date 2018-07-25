@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { LIGHT_GREY, DARK_BLUE } from '../../../configs/color';
 
 export default StyleSheet.create({
   Container: {
@@ -12,7 +13,7 @@ export default StyleSheet.create({
   PickupCard: {
     width: '95%',
     marginHorizontal: 20,
-    backgroundColor: '#EDEDED',
+    backgroundColor: LIGHT_GREY,
     height: 80,
     borderRadius: 5,
     flexDirection: 'row',
@@ -27,7 +28,7 @@ export default StyleSheet.create({
   },
   PickupCardIcon: {
     marginHorizontal: 10,
-    color: '#194364',
+    color: DARK_BLUE,
     fontSize: 45,
   },
   PickupCardTextContainer: {
@@ -41,7 +42,7 @@ export default StyleSheet.create({
     marginBottom: 5,
   },
   PickupCardTextName: {
-    color: '#194364',
+    color: DARK_BLUE,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -49,7 +50,7 @@ export default StyleSheet.create({
     marginHorizontal: 10,
   },
   PickupCardTimerText: {
-    color: '#194364',
+    color: DARK_BLUE,
     fontSize: 16,
     fontWeight: '800',
   },
