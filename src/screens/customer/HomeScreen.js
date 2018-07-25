@@ -14,6 +14,7 @@ import PickLocation from '../../components/maps/PickLocation';
 import RequestMenu from '../../components/customer/requestMenu';
 import BookMenu from '../../components/customer/bookMenu';
 import RouteInfo from '../../components/customer/routeInfo';
+import RideState from '../../components/customer/rideState';
 
 const mapStateToProps = ({ customer, auth }) => ({
   isSelectedDest: customer.customerUi.destinationSelected,
@@ -144,7 +145,9 @@ class HomeScreen extends Component {
         <View style={styles.Container}>
           <Maps />
         </View>
-        {hasRide ? null : (
+        {!hasRide ? (
+          <RideState />
+        ) : (
           <PickLocation
             onDestinationPress={this.openDestinationSelect}
             onOriginPress={this.openOriginSelect}
