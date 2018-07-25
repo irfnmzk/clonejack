@@ -4,6 +4,7 @@ import {
   SET_CUSTOMER_ORIGIN,
   SET_ROUTE_INFO,
   CUSTOMER_SEARCH_DRIVER,
+  CUSTOMER_SET_DRIVER_DATA,
 } from '../actions/constant/customer';
 
 const initialState = {
@@ -12,7 +13,7 @@ const initialState = {
   ride: {
     origin: {},
     destination: {},
-    rider: {},
+    driver: {},
     status: null,
     routeInfo: {
       distance: null,
@@ -74,6 +75,15 @@ export default (state = initialState, action) => {
       return {
         ...state,
         searchingDriver: true,
+      };
+    case CUSTOMER_SET_DRIVER_DATA:
+      return {
+        ...state,
+        ride: {
+          ...state.ride,
+          driver: action.payload,
+        },
+        hasRide: true,
       };
     default:
       return state;

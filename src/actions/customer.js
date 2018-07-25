@@ -4,6 +4,7 @@ import {
   SET_CUSTOMER_ORIGIN,
   SET_ROUTE_INFO,
   CUSTOMER_SEARCH_DRIVER,
+  CUSTOMER_SET_DRIVER_DATA,
 } from './constant/customer';
 
 export const setCustomerDestination = location => ({
@@ -35,4 +36,9 @@ export const setRouteInfo = (data) => {
 
 export const searchDriver = () => ({
   type: CUSTOMER_SEARCH_DRIVER,
+});
+
+export const setDriverData = data => ({
+  type: CUSTOMER_SET_DRIVER_DATA,
+  payload: data,
 });

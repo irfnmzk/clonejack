@@ -8,7 +8,6 @@ export const getAddress = coords => new Promise((resolve) => {
     .get(`${BASE_URL}?latlng=${coords.latitude},${coords.longitude}&key=${API_KEY}`)
     .then((res) => {
       const result = res.data.results;
-      console.log(result);
       resolve(result[0].formatted_address);
     })
     .catch(err => console.log(err));

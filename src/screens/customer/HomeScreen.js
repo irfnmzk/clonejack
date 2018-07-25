@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import { Container } from 'native-base';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -55,7 +55,7 @@ class HomeScreen extends Component {
   }
 
   componentWillMount() {
-    const { hasRide, user } = this.props;
+    const { hasRide, user, customer } = this.props;
     this.pusher = new Pusher('d5e8162e2071d516fe7b', {
       authEndpoint: 'https://pusher-channels-auth-example-hdzhdqknhl.now.sh/pusher/auth',
       cluster: 'ap1',
@@ -69,7 +69,9 @@ class HomeScreen extends Component {
         this.ride.trigger('client-customer-response', {
           accepted: !hasRide,
         });
-        Alert.alert('A driver accept your request');
+        this.ride.bind('client-get-driver', (data) => {
+          customer.setDriverData(data);
+        });
       });
     });
   }
@@ -118,9 +120,22 @@ class HomeScreen extends Component {
     customer.searchDriver();
   }
 
+  renderBookMenu() {
+    const { isBooked, isSelectedDest } = this.props;
+    return isBooked ? (
+      <RequestMenu
+        infoPress={this.toggleRouteInfo}
+        requestPress={this.requestDriver}
+        disable={false}
+      />
+    ) : (
+      <BookMenu disable={isSelectedDest} onPress={this.onBookPressed} />
+    );
+  }
+
   render() {
     const {
-      navigation, destination, origin, isSelectedDest, isBooked, routeInfo,
+      navigation, destination, origin, isBooked, routeInfo, hasRide,
     } = this.props;
     const { showRouteInfo } = this.state;
     return (
@@ -129,22 +144,16 @@ class HomeScreen extends Component {
         <View style={styles.Container}>
           <Maps />
         </View>
-        <PickLocation
-          onDestinationPress={this.openDestinationSelect}
-          onOriginPress={this.openOriginSelect}
-          origin={origin}
-          destination={destination}
-          isBooked={isBooked}
-        />
-        {isBooked ? (
-          <RequestMenu
-            infoPress={this.toggleRouteInfo}
-            requestPress={this.requestDriver}
-            disable={false}
+        {hasRide ? null : (
+          <PickLocation
+            onDestinationPress={this.openDestinationSelect}
+            onOriginPress={this.openOriginSelect}
+            origin={origin}
+            destination={destination}
+            isBooked={isBooked}
           />
-        ) : (
-          <BookMenu disable={isSelectedDest} onPress={this.onBookPressed} />
         )}
+        {hasRide ? null : this.renderBookMenu()}
         <RouteInfo info={routeInfo} show={showRouteInfo} onPress={this.toggleRouteInfo} />
       </Container>
     );
