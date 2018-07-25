@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native';
+import { DARK_BLUE } from '../../../configs/color';
 
 export default StyleSheet.create({
   Container: {
     width: '100%',
     height: 80,
-    borderTopColor: '#194364',
+    borderTopColor: DARK_BLUE,
     borderTopWidth: 0.5,
     flexDirection: 'row',
   },
@@ -12,11 +13,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 100,
-    borderRightColor: '#194364',
+    borderRightColor: DARK_BLUE,
     borderRightWidth: 0.5,
   },
   Icon: {
-    color: '#194364',
+    color: DARK_BLUE,
     fontSize: 60,
   },
   PlaceContainer: {
@@ -26,7 +27,7 @@ export default StyleSheet.create({
     paddingHorizontal: 5,
   },
   PlaceText: {
-    color: '#194364',
+    color: DARK_BLUE,
     fontSize: 17,
     fontWeight: '600',
   },

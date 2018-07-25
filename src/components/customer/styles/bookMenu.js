@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { MAIN_BLUE } from '../../configs/color';
 
 export default StyleSheet.create({
   Contianer: {
@@ -9,7 +10,7 @@ export default StyleSheet.create({
   BookButton: {
     height: 50,
     marginTop: 50,
-    backgroundColor: '#1E5578',
+    backgroundColor: MAIN_BLUE,
   },
   BookButtonText: {
     color: 'white',

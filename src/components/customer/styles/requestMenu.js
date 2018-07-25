@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { MAIN_BLUE } from '../../configs/color';
 
 export default StyleSheet.create({
   Contianer: {
@@ -13,19 +14,19 @@ export default StyleSheet.create({
     width: '50%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: '#1E5578',
+    borderColor: MAIN_BLUE,
     borderWidth: 0.6,
     height: 50,
     backgroundColor: 'white',
   },
   MenuButtonText: {
     fontSize: 17,
-    color: '#1E5578',
+    color: MAIN_BLUE,
     fontWeight: 'bold',
   },
   BookButton: {
     height: 50,
-    backgroundColor: '#1E5578',
+    backgroundColor: MAIN_BLUE,
     marginTop: 50,
   },
   BookButtonText: {
@@ -40,6 +41,6 @@ export default StyleSheet.create({
   },
   Icon: {
     marginHorizontal: 10,
-    color: '#1E5578',
+    color: MAIN_BLUE,
   },
 });

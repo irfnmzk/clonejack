@@ -1,11 +1,11 @@
 import React from 'react';
-
 import { Button, Icon } from 'native-base';
 import { StyleSheet, View } from 'react-native';
+import { MAIN_BLUE } from '../../configs/color';
 
 const styles = StyleSheet.create({
   Icon: {
-    color: '#1E5578',
+    color: MAIN_BLUE,
   },
 });
 

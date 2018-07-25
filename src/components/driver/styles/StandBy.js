@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { MAIN_BLUE } from '../../configs/color';
 
 export default StyleSheet.create({
   DriverToggleContainer: {
@@ -10,7 +11,7 @@ export default StyleSheet.create({
   },
   DriverToggleText: {
     fontSize: 20,
-    color: '#1E5578',
+    color: MAIN_BLUE,
     fontWeight: 'bold',
   },
 });

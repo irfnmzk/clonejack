@@ -14,7 +14,7 @@ const initialState = {
     origin: {},
     destination: {},
     driver: {},
-    status: null,
+    status: 'PICKUP',
     routeInfo: {
       distance: null,
       duration: null,

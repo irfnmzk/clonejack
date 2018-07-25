@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { MAIN_BLUE } from '../../configs/color';
 
 export default StyleSheet.create({
   FloatingMenu: {
@@ -21,7 +22,7 @@ export default StyleSheet.create({
   },
   FloatingMenuLocation: {
     fontSize: 15,
-    color: '#1E5578',
+    color: MAIN_BLUE,
     fontWeight: '400',
   },
 });

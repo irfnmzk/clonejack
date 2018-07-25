@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { MAIN_BLUE } from '../../configs/color';
 
 export default StyleSheet.create({
   Container: {
@@ -14,7 +15,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   Text: {
-    color: '#1E5578',
+    color: MAIN_BLUE,
     fontSize: 17,
     fontWeight: 'bold',
   },

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { MAIN_BLUE } from '../../configs/color';
 
 export default StyleSheet.create({
   Container: {
@@ -27,11 +28,11 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   InfoIcon: {
-    color: '#1E5578',
+    color: MAIN_BLUE,
     fontSize: 50,
   },
   InfoText: {
-    color: '#1E5578',
+    color: MAIN_BLUE,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -48,7 +49,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   ButtonContact: {
-    backgroundColor: '#1E5578',
+    backgroundColor: MAIN_BLUE,
   },
   ButtonCancel: {
     backgroundColor: '#EDEDED',

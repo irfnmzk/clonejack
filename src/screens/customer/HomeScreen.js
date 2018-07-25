@@ -147,7 +147,7 @@ class HomeScreen extends Component {
         <View style={styles.Container}>
           <Maps />
         </View>
-        {!hasRide ? (
+        {hasRide ? (
           <RideState />
         ) : (
           <PickLocation
@@ -158,7 +158,7 @@ class HomeScreen extends Component {
             isBooked={isBooked}
           />
         )}
-        {!hasRide ? <RideMenu /> : this.renderBookMenu()}
+        {hasRide ? <RideMenu /> : this.renderBookMenu()}
         <RouteInfo info={routeInfo} show={showRouteInfo} onPress={this.toggleRouteInfo} />
       </Container>
     );
