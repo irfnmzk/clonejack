@@ -6,6 +6,8 @@ import {
   CUSTOMER_SEARCH_DRIVER,
   CUSTOMER_SET_DRIVER_DATA,
   TOGGLE_SELECT_VIA_MAP,
+  CUSTOMER_GET_ADDRESS_START,
+  CUSTOMER_GET_ADDRESS_SUCCESS,
 } from '../actions/constant/customer';
 
 const initialState = {
@@ -21,6 +23,12 @@ const initialState = {
       duration: null,
       fare: 0,
     },
+  },
+  selectedLocation: {
+    isFetch: false,
+    location: {},
+    fullAddress: '',
+    address: '',
   },
   customerUi: {
     destinationSelected: false,
@@ -93,6 +101,22 @@ export default (state = initialState, action) => {
         customerUi: {
           ...state.customerUi,
           selectViaMap: !state.customerUi.selectViaMap,
+        },
+      };
+    case CUSTOMER_GET_ADDRESS_START:
+      return {
+        ...state,
+        selectedLocation: {
+          ...state.selectedLocation,
+          isFetch: true,
+        },
+      };
+    case CUSTOMER_GET_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        selectedLocation: {
+          isFetch: false,
+          ...action.payload,
         },
       };
     default:

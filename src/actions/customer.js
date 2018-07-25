@@ -6,7 +6,10 @@ import {
   CUSTOMER_SEARCH_DRIVER,
   CUSTOMER_SET_DRIVER_DATA,
   TOGGLE_SELECT_VIA_MAP,
+  CUSTOMER_GET_ADDRESS_SUCCESS,
+  CUSTOMER_GET_ADDRESS_START,
 } from './constant/customer';
+import { getAddressByCoords } from '../utils/NearbyPlace';
 
 export const setCustomerDestination = location => ({
   type: SET_CUSTOMER_DESTINATION,
@@ -47,3 +50,26 @@ export const setDriverData = data => ({
 export const toggleSelectViaMap = () => ({
   type: TOGGLE_SELECT_VIA_MAP,
 });
+
+export const getAddressStart = () => ({
+  type: CUSTOMER_GET_ADDRESS_START,
+});
+
+const setMapsLocation = (data) => {
+  const { geometry } = data;
+  const { location } = geometry;
+  const fullAddress = data.formatted_address;
+  const arr = fullAddress.split(',');
+  const address = arr[0];
+  return {
+    type: CUSTOMER_GET_ADDRESS_SUCCESS,
+    payload: { location, fullAddress, address },
+  };
+};
+
+export const getAddressFromLocation = ({ latitude, longitude }) => (dispatch) => {
+  dispatch(getAddressStart());
+  getAddressByCoords({ latitude, longitude }).then((data) => {
+    dispatch(setMapsLocation(data));
+  });
+};

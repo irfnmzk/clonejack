@@ -13,4 +13,12 @@ export const getAddress = coords => new Promise((resolve) => {
     .catch(err => console.log(err));
 });
 
-export const test = 'test';
+export const getAddressByCoords = coords => new Promise((resolve) => {
+  axios
+    .get(`${BASE_URL}?latlng=${coords.latitude},${coords.longitude}&key=${API_KEY}`)
+    .then((res) => {
+      const result = res.data.results;
+      resolve(result[0]);
+    })
+    .catch(err => console.log(err));
+});

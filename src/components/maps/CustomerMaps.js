@@ -15,6 +15,8 @@ const mapStateToProps = ({ location, customer }) => ({
   destination: customer.ride.destination.location,
   origin: customer.ride.origin.location,
   hasDirection: customer.customerUi.hasDirection,
+  selectViaMap: customer.customerUi.selectViaMap,
+  getAddressLoading: customer.selectedLocation.isFetch,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -27,6 +29,7 @@ class Maps extends Component {
     super();
 
     this.onRegionChange = this.onRegionChange.bind(this);
+    this.onRegionChangeComplete = this.onRegionChangeComplete.bind(this);
   }
 
   componentWillMount() {
@@ -56,16 +59,23 @@ class Maps extends Component {
     location.setUserRegion(region);
   }
 
+  onRegionChangeComplete(region) {
+    const { selectViaMap, customer } = this.props;
+    if (selectViaMap) {
+      customer.getAddressFromLocation(region);
+    }
+  }
+
   render() {
     const {
       locations, hasDirection, destination, origin, customer,
     } = this.props;
     return (
-      <MapView.Animated
+      <MapView
         style={{ height: '100%' }}
         showsUserLocation
-        region={new MapView.AnimatedRegion({ ...locations.region })}
-        onPress={e => console.log(e.nativeEvent.coordinate)}
+        region={{ ...locations.region }}
+        onRegionChangeComplete={this.onRegionChangeComplete}
       >
         {hasDirection && (
           <MapViewDirections
@@ -80,7 +90,7 @@ class Maps extends Component {
           />
         )}
         {destination && <MapView.Marker coordinate={destination} />}
-      </MapView.Animated>
+      </MapView>
     );
   }
 }
@@ -92,6 +102,7 @@ Maps.propTypes = {
   location: PropTypes.instanceOf(Object).isRequired,
   customer: PropTypes.instanceOf(Object).isRequired,
   hasDirection: PropTypes.bool.isRequired,
+  selectViaMap: PropTypes.bool.isRequired,
 };
 
 Maps.defaultProps = {
