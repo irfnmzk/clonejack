@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { MAIN_BLUE } from '../../configs/color';
+import { MAIN_BLUE } from '../../../configs/color';
 
 export default StyleSheet.create({
   DriverToggleContainer: {

@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { MAIN_BLUE } from '../../configs/color';
-import { LIGHT_GREY } from '../../../configs/color';
+import { MAIN_BLUE, LIGHT_GREY } from '../../../configs/color';
 
 export default StyleSheet.create({
   Container: {
