@@ -1,4 +1,5 @@
 import { SET_USER_LOCATION_REGION } from '../actions/constant/location';
+import { DRIVER_CALCULATE_REGION } from '../actions/constant/driver';
 
 const initialState = {
   userLocation: {},
@@ -17,6 +18,10 @@ export default (state = initialState, action) => {
         ...state,
         region: action.payload,
         userLocation: action.payload,
+      };
+    case DRIVER_CALCULATE_REGION:
+      return {
+        region: action.payload,
       };
     default:
       return state;

@@ -7,8 +7,10 @@ import { bindActionCreators } from 'redux';
 import * as locationAction from '../../actions/location';
 import { getRegionFrom } from '../../utils/MapsRegion';
 
-const mapStateToProps = ({ location }) => ({
+const mapStateToProps = ({ location, driver }) => ({
   locations: location,
+  ride: driver.ride,
+  hasPassenger: driver.hasPassenger,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -45,14 +47,17 @@ class Maps extends Component {
   }
 
   render() {
-    const { locations } = this.props;
+    const { locations, ride, hasPassenger } = this.props;
+    console.log(ride);
     return (
       <MapView.Animated
         style={{ height: '100%' }}
         showsUserLocation
         region={new MapView.AnimatedRegion({ ...locations.region })}
         onPress={e => console.log(e.nativeEvent.coordinate)}
-      />
+      >
+        {hasPassenger && <MapView.Marker coordinate={ride.origin.location} />}
+      </MapView.Animated>
     );
   }
 }
@@ -60,6 +65,8 @@ class Maps extends Component {
 Maps.propTypes = {
   locations: PropTypes.instanceOf(Object).isRequired,
   location: PropTypes.instanceOf(Object).isRequired,
+  ride: PropTypes.instanceOf(Object).isRequired,
+  hasPassenger: PropTypes.bool.isRequired,
 };
 
 Maps.defaultProps = {};

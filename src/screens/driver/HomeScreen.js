@@ -103,6 +103,7 @@ class HomeScreen extends Component {
         if (response.accepted) {
           this.clearCountNotification();
           driver.startRide();
+          driver.calculateRegion();
           this.ride.trigger('client-get-driver', user);
         }
       });

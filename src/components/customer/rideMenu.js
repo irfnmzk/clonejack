@@ -1,21 +1,22 @@
 import React from 'react';
 import { View, TouchableHighlight } from 'react-native';
 import { Text, Icon } from 'native-base';
+import PropTypes from 'prop-types';
 import styles from './styles/rideMenu';
 
-const RideMenu = () => (
+const RideMenu = ({ data }) => (
   <View style={styles.Container}>
     <View style={styles.InfoContainer}>
       <View style={styles.InfoItem}>
         <Icon name="user-secret" type="FontAwesome" style={styles.InfoIcon} />
         <Text style={styles.InfoText}>
-          {'Irfan Marzuki'}
+          {data.driver.name}
         </Text>
       </View>
       <View style={styles.InfoItem}>
         <Icon name="motorbike" type="MaterialCommunityIcons" style={styles.InfoIcon} />
         <Text style={styles.InfoText}>
-          {'Honda Jazz'}
+          {data.driver.vehicle.name}
         </Text>
       </View>
     </View>
@@ -33,5 +34,9 @@ const RideMenu = () => (
     </View>
   </View>
 );
+
+RideMenu.propTypes = {
+  data: PropTypes.instanceOf(Object).isRequired,
+};
 
 export default RideMenu;

@@ -138,7 +138,7 @@ class HomeScreen extends Component {
 
   render() {
     const {
-      navigation, destination, origin, isBooked, routeInfo, hasRide,
+      navigation, destination, origin, isBooked, routeInfo, hasRide, ride,
     } = this.props;
     const { showRouteInfo } = this.state;
     return (
@@ -158,7 +158,7 @@ class HomeScreen extends Component {
             isBooked={isBooked}
           />
         )}
-        {hasRide ? <RideMenu /> : this.renderBookMenu()}
+        {hasRide ? <RideMenu data={ride} /> : this.renderBookMenu()}
         <RouteInfo info={routeInfo} show={showRouteInfo} onPress={this.toggleRouteInfo} />
       </Container>
     );

@@ -21,10 +21,19 @@ class GetDestination extends Component {
     console.log('initial load');
   }
 
+  decideNextAction(place) {
+    const { navigation, setCustomerDest, setCustomerOrg } = this.props;
+    const type = navigation.getParam('type');
+    if (type === 'origin') {
+      setCustomerOrg(place);
+    } else {
+      setCustomerDest(place);
+    }
+    return navigation.goBack();
+  }
+
   render() {
-    const {
-      navigation, myLocation, setCustomerDest, setCustomerOrg,
-    } = this.props;
+    const { navigation, myLocation } = this.props;
     const type = navigation.getParam('type');
     let userLocation = {
       description: 'Use My Location',
@@ -48,6 +57,9 @@ class GetDestination extends Component {
             types: 'geocode',
           }}
           onPress={(data, detail) => {
+            if (data.description === 'Select in Map') {
+              return navigation.goBack();
+            }
             const place = {
               description: data.description,
               location: {
@@ -55,14 +67,18 @@ class GetDestination extends Component {
                 longitude: detail.geometry.location.lng,
               },
             };
-            if (type === 'origin') {
-              setCustomerOrg(place);
-            } else {
-              setCustomerDest(place);
-            }
-            navigation.goBack();
+            return this.decideNextAction(place);
           }}
-          predefinedPlaces={[userLocation]}
+          predefinedPlaces={[
+            {
+              description: 'Select in Map',
+              location: {
+                latitude: 1,
+                longitude: 1,
+              },
+            },
+            userLocation,
+          ]}
           styles={styles}
         />
       </Container>

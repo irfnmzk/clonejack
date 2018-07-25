@@ -25,6 +25,7 @@ const initialState = {
     destinationSelected: false,
     isBooked: false,
     hasDirection: false,
+    selectViaMap: false,
   },
 };
 
