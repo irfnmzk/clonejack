@@ -12,18 +12,20 @@ import Header from '../../components/commons/Header';
 import Notification from '../../components/driver/Notification';
 import StandBy from '../../components/driver/StandBy';
 import Direction from '../../components/driver/Direction';
+import Pickup from '../../components/driver/Pickup';
 
-const mapStateToProps = ({ driver }) => ({
+const mapStateToProps = ({ driver, auth }) => ({
   drivers: driver,
   rideData: driver.ride,
   hasPassenger: driver.hasPassenger,
+  user: auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({
   driver: bindActionCreators(driverAction, dispatch),
 });
 
-Pusher.logToConsole = true;
+Pusher.logToConsole = false;
 
 class HomeScreen extends Component {
   constructor() {
@@ -87,8 +89,23 @@ class HomeScreen extends Component {
   }
 
   acceptOrder() {
+    const { rideData, driver, user } = this.props;
     this.setState({
       disableAccept: true,
+    });
+    this.ride = this.pusher.subscribe(`presence-rides-${rideData.passenger.email}`);
+    this.ride.bind('pusher:subscription_succeeded', (member) => {
+      console.log(member);
+      this.ride.trigger('client-driver-response', {
+        accepted: true,
+      });
+      this.ride.bind('client-customer-response', (response) => {
+        if (response.accepted) {
+          this.clearCountNotification();
+          driver.startRide();
+          this.ride.trigger('client-get-driver', user);
+        }
+      });
     });
   }
 
@@ -117,13 +134,14 @@ class HomeScreen extends Component {
       <Container>
         <Header navigation={navigation} title="Driver Home" sideBar />
         {hasPassenger ? (
-          <Direction />
+          <Direction data={rideData} />
         ) : (
           <StandBy avaiable={avaiable} toggle={this.toggleAvaiable} />
         )}
         <View>
           <Maps />
         </View>
+        {hasPassenger && <Pickup />}
         <Notification
           show={showNotification}
           toggleNotification={this.toggleNotification}
@@ -141,6 +159,7 @@ HomeScreen.propTypes = {
   driver: PropTypes.instanceOf(Object).isRequired,
   rideData: PropTypes.instanceOf(Object).isRequired,
   hasPassenger: PropTypes.bool.isRequired,
+  user: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default connect(

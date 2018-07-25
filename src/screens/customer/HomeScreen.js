@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Container } from 'native-base';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -24,6 +24,7 @@ const mapStateToProps = ({ customer, auth }) => ({
   isSearching: customer.searchingDriver,
   ride: customer.ride,
   user: auth.user,
+  hasRide: customer.hasRide,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -31,7 +32,7 @@ const mapDispatchToProps = dispatch => ({
   location: bindActionCreators(locationAction, dispatch),
 });
 
-Pusher.logToConsole = true;
+Pusher.logToConsole = false;
 
 class HomeScreen extends Component {
   constructor() {
@@ -54,8 +55,7 @@ class HomeScreen extends Component {
   }
 
   componentWillMount() {
-    const { user } = this.props;
-
+    const { hasRide, user } = this.props;
     this.pusher = new Pusher('d5e8162e2071d516fe7b', {
       authEndpoint: 'https://pusher-channels-auth-example-hdzhdqknhl.now.sh/pusher/auth',
       cluster: 'ap1',
@@ -63,7 +63,22 @@ class HomeScreen extends Component {
     });
 
     this.driver = this.pusher.subscribe('private-drivers');
-    this.ride = this.pusher.subscribe(`private-rides-${user.email}`);
+    this.ride = this.pusher.subscribe(`presence-rides-${user.email}`);
+    this.ride.bind('pusher:subscription_succeeded', () => {
+      this.ride.bind('client-driver-response', () => {
+        this.ride.trigger('client-customer-response', {
+          accepted: !hasRide,
+        });
+        Alert.alert('A driver accept your request');
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    const { user } = this.props;
+
+    this.pusher.unsubscribe('private-drivers');
+    this.pusher.unsubscribe(`presence-rides-${user.email}`);
   }
 
   onBookPressed() {
@@ -146,6 +161,7 @@ HomeScreen.propTypes = {
   routeInfo: PropTypes.instanceOf(Object).isRequired,
   ride: PropTypes.instanceOf(Object).isRequired,
   user: PropTypes.instanceOf(Object).isRequired,
+  hasRide: PropTypes.bool.isRequired,
 };
 
 HomeScreen.defaultProps = {

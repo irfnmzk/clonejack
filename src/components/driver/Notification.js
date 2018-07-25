@@ -18,7 +18,7 @@ const Notification = ({
       <Icon name="motorbike" type="MaterialCommunityIcons" style={styles.Icon} />
       <View style={styles.TimerContainer}>
         <Text style={styles.TimerText}>
-          {count === 0 ? 'You are late' : `${count} Seconds`}
+          {!disableAccept && (count === 0 ? 'You are late' : `${count} Seconds`)}
         </Text>
       </View>
       <View style={styles.AddressContainer}>

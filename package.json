@@ -23,6 +23,7 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "@google/maps": "^0.5.5",
     "axios": "^0.18.0",
     "native-base": "^2.7.1",
     "prop-types": "^15.6.2",
@@ -39,6 +40,7 @@
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-persist": "^5.10.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "util": "^0.11.0"
   }
 }

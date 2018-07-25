@@ -23,6 +23,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
+    paddingHorizontal: 5,
   },
   PlaceText: {
     color: '#194364',

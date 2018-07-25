@@ -1,4 +1,4 @@
-import { SET_DRIVER_PASSENGER_DATA } from '../actions/constant/driver';
+import { SET_DRIVER_PASSENGER_DATA, START_DRIVER_RIDE } from '../actions/constant/driver';
 
 const initialState = {
   hasPassenger: false,
@@ -11,6 +11,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ride: action.payload,
+      };
+    case START_DRIVER_RIDE:
+      return {
+        ...state,
+        hasPassenger: true,
       };
     default:
       return state;

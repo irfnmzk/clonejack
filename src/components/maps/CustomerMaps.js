@@ -8,6 +8,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import * as locationAction from '../../actions/location';
 import * as customerAction from '../../actions/customer';
 import { getRegionFrom } from '../../utils/MapsRegion';
+import { getAddress } from '../../utils/NearbyPlace';
 
 const mapStateToProps = ({ location, customer }) => ({
   locations: location,
@@ -30,12 +31,13 @@ class Maps extends Component {
 
   componentWillMount() {
     const { location, customer } = this.props;
-    navigator.geolocation.getCurrentPosition((position) => {
+    navigator.geolocation.getCurrentPosition(async (position) => {
       const { accuracy, latitude, longitude } = position.coords;
       const data = getRegionFrom(latitude, longitude, accuracy);
       location.setUserRegion(data);
+      const description = await getAddress({ latitude, longitude });
       customer.setCustomerOrigin({
-        description: 'My Location',
+        description,
         location: { latitude: data.latitude, longitude: data.longitude },
       });
     });
