@@ -16,6 +16,8 @@ import BookMenu from '../../components/customer/bookMenu';
 import RouteInfo from '../../components/customer/routeInfo';
 import RideState from '../../components/customer/rideState';
 import RideMenu from '../../components/customer/rideMenu';
+import SelectLocation from '../../components/maps/SelectLocation';
+import LocationInfo from '../../components/maps/LocationInfo';
 
 const mapStateToProps = ({ customer, auth }) => ({
   isSelectedDest: customer.customerUi.destinationSelected,
@@ -27,6 +29,7 @@ const mapStateToProps = ({ customer, auth }) => ({
   ride: customer.ride,
   user: auth.user,
   hasRide: customer.hasRide,
+  selectViaMap: customer.customerUi.selectViaMap,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -123,6 +126,24 @@ class HomeScreen extends Component {
     customer.searchDriver();
   }
 
+  renderBookLocation() {
+    const {
+      destination, origin, isBooked, selectViaMap,
+    } = this.props;
+
+    return selectViaMap ? (
+      <SelectLocation />
+    ) : (
+      <PickLocation
+        onDestinationPress={this.openDestinationSelect}
+        onOriginPress={this.openOriginSelect}
+        origin={origin}
+        destination={destination}
+        isBooked={isBooked}
+      />
+    );
+  }
+
   renderBookMenu() {
     const { isBooked, isSelectedDest } = this.props;
     return isBooked ? (
@@ -136,9 +157,15 @@ class HomeScreen extends Component {
     );
   }
 
+  renderBookLocationButton() {
+    const { selectViaMap } = this.props;
+
+    return selectViaMap ? <LocationInfo /> : this.renderBookMenu();
+  }
+
   render() {
     const {
-      navigation, destination, origin, isBooked, routeInfo, hasRide, ride,
+      navigation, routeInfo, hasRide, ride,
     } = this.props;
     const { showRouteInfo } = this.state;
     return (
@@ -147,18 +174,8 @@ class HomeScreen extends Component {
         <View style={styles.Container}>
           <Maps />
         </View>
-        {hasRide ? (
-          <RideState />
-        ) : (
-          <PickLocation
-            onDestinationPress={this.openDestinationSelect}
-            onOriginPress={this.openOriginSelect}
-            origin={origin}
-            destination={destination}
-            isBooked={isBooked}
-          />
-        )}
-        {hasRide ? <RideMenu data={ride} /> : this.renderBookMenu()}
+        {hasRide ? <RideState /> : this.renderBookLocation()}
+        {hasRide ? <RideMenu data={ride} /> : this.renderBookLocationButton()}
         <RouteInfo info={routeInfo} show={showRouteInfo} onPress={this.toggleRouteInfo} />
       </Container>
     );
@@ -176,6 +193,7 @@ HomeScreen.propTypes = {
   ride: PropTypes.instanceOf(Object).isRequired,
   user: PropTypes.instanceOf(Object).isRequired,
   hasRide: PropTypes.bool.isRequired,
+  selectViaMap: PropTypes.bool.isRequired,
 };
 
 HomeScreen.defaultProps = {

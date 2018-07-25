@@ -5,7 +5,11 @@ import PropTypes from 'prop-types';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import styles from './styles/GetDestination';
 import Header from '../../components/commons/Header';
-import { setCustomerDestination, setCustomerOrigin } from '../../actions/customer';
+import {
+  setCustomerDestination,
+  setCustomerOrigin,
+  toggleSelectViaMap,
+} from '../../actions/customer';
 
 const mapStateToProps = ({ location }) => ({
   myLocation: location.userLocation,
@@ -14,6 +18,7 @@ const mapStateToProps = ({ location }) => ({
 const mapDispatchToProps = dispatch => ({
   setCustomerDest: loc => dispatch(setCustomerDestination(loc)),
   setCustomerOrg: loc => dispatch(setCustomerOrigin(loc)),
+  toggleSelectViaMaps: () => dispatch(toggleSelectViaMap()),
 });
 
 class GetDestination extends Component {
@@ -33,7 +38,7 @@ class GetDestination extends Component {
   }
 
   render() {
-    const { navigation, myLocation } = this.props;
+    const { navigation, myLocation, toggleSelectViaMaps } = this.props;
     const type = navigation.getParam('type');
     let userLocation = {
       description: 'Use My Location',
@@ -58,6 +63,7 @@ class GetDestination extends Component {
           }}
           onPress={(data, detail) => {
             if (data.description === 'Select in Map') {
+              toggleSelectViaMaps();
               return navigation.goBack();
             }
             const place = {
@@ -90,6 +96,7 @@ GetDestination.propTypes = {
   myLocation: PropTypes.instanceOf(Object).isRequired,
   setCustomerDest: PropTypes.func.isRequired,
   setCustomerOrg: PropTypes.func.isRequired,
+  toggleSelectViaMaps: PropTypes.func.isRequired,
 };
 
 export default connect(

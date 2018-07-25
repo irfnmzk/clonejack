@@ -5,6 +5,7 @@ import {
   SET_ROUTE_INFO,
   CUSTOMER_SEARCH_DRIVER,
   CUSTOMER_SET_DRIVER_DATA,
+  TOGGLE_SELECT_VIA_MAP,
 } from './constant/customer';
 
 export const setCustomerDestination = location => ({
@@ -41,4 +42,8 @@ export const searchDriver = () => ({
 export const setDriverData = data => ({
   type: CUSTOMER_SET_DRIVER_DATA,
   payload: data,
+});
+
+export const toggleSelectViaMap = () => ({
+  type: TOGGLE_SELECT_VIA_MAP,
 });

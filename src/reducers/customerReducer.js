@@ -5,6 +5,7 @@ import {
   SET_ROUTE_INFO,
   CUSTOMER_SEARCH_DRIVER,
   CUSTOMER_SET_DRIVER_DATA,
+  TOGGLE_SELECT_VIA_MAP,
 } from '../actions/constant/customer';
 
 const initialState = {
@@ -85,6 +86,14 @@ export default (state = initialState, action) => {
           driver: action.payload,
         },
         hasRide: true,
+      };
+    case TOGGLE_SELECT_VIA_MAP:
+      return {
+        ...state,
+        customerUi: {
+          ...state.customerUi,
+          selectViaMap: !state.customerUi.selectViaMap,
+        },
       };
     default:
       return state;
