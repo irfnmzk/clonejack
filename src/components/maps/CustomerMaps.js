@@ -47,22 +47,27 @@ class Maps extends Component {
   }
 
   componentDidMount() {
+    const { location } = this.props;
     this.watchID = navigator.geolocation.watchPosition((position) => {
       const { accuracy, latitude, longitude } = position.coords;
       const region = getRegionFrom(latitude, longitude, accuracy);
-      this.onRegionChange(region);
+      location.setUserRegion(region);
     });
   }
 
   onRegionChange(region) {
-    const { location } = this.props;
-    location.setUserRegion(region);
+    const { selectViaMap, customer, getAddressLoading } = this.props;
+    if (selectViaMap && !getAddressLoading) {
+      console.log('loading: ', getAddressLoading);
+      customer.getAddressStart(region);
+    }
   }
 
   onRegionChangeComplete(region) {
-    const { selectViaMap, customer } = this.props;
+    const { selectViaMap, customer, location } = this.props;
     if (selectViaMap) {
       customer.getAddressFromLocation(region);
+      location.setUserRegion(region);
     }
   }
 
@@ -75,6 +80,7 @@ class Maps extends Component {
         style={{ height: '100%' }}
         showsUserLocation
         region={{ ...locations.region }}
+        onRegionChange={this.onRegionChange}
         onRegionChangeComplete={this.onRegionChangeComplete}
       >
         {hasDirection && (
@@ -103,6 +109,7 @@ Maps.propTypes = {
   customer: PropTypes.instanceOf(Object).isRequired,
   hasDirection: PropTypes.bool.isRequired,
   selectViaMap: PropTypes.bool.isRequired,
+  getAddressLoading: PropTypes.bool.isRequired,
 };
 
 Maps.defaultProps = {

@@ -68,7 +68,6 @@ const setMapsLocation = (data) => {
 };
 
 export const getAddressFromLocation = ({ latitude, longitude }) => (dispatch) => {
-  dispatch(getAddressStart());
   getAddressByCoords({ latitude, longitude }).then((data) => {
     dispatch(setMapsLocation(data));
   });

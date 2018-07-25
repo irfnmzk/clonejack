@@ -30,6 +30,7 @@ const mapStateToProps = ({ customer, auth }) => ({
   user: auth.user,
   hasRide: customer.hasRide,
   selectViaMap: customer.customerUi.selectViaMap,
+  selectedLocation: customer.selectedLocation,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -158,9 +159,8 @@ class HomeScreen extends Component {
   }
 
   renderBookLocationButton() {
-    const { selectViaMap } = this.props;
-
-    return selectViaMap ? <LocationInfo /> : this.renderBookMenu();
+    const { selectViaMap, selectedLocation } = this.props;
+    return selectViaMap ? <LocationInfo data={selectedLocation} /> : this.renderBookMenu();
   }
 
   render() {
@@ -194,6 +194,7 @@ HomeScreen.propTypes = {
   user: PropTypes.instanceOf(Object).isRequired,
   hasRide: PropTypes.bool.isRequired,
   selectViaMap: PropTypes.bool.isRequired,
+  selectedLocation: PropTypes.instanceOf(Object).isRequired,
 };
 
 HomeScreen.defaultProps = {

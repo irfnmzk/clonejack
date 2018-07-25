@@ -25,7 +25,7 @@ const initialState = {
     },
   },
   selectedLocation: {
-    isFetch: false,
+    isFetch: true,
     location: {},
     fullAddress: '',
     address: '',
