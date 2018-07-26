@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Pusher from 'pusher-js/react-native';
 import timer from 'react-native-timer';
+import geodist from 'geodist';
 import * as driverAction from '../../actions/driver';
 import Maps from '../../components/maps/DriverMaps';
 import Header from '../../components/commons/Header';
@@ -14,7 +15,8 @@ import StandBy from '../../components/driver/StandBy';
 import Direction from '../../components/driver/Direction';
 import Pickup from '../../components/driver/Pickup';
 
-const mapStateToProps = ({ driver, auth }) => ({
+const mapStateToProps = ({ driver, auth, location }) => ({
+  locations: location,
   drivers: driver,
   rideData: driver.ride,
   hasPassenger: driver.hasPassenger,
@@ -94,8 +96,7 @@ class HomeScreen extends Component {
       disableAccept: true,
     });
     this.ride = this.pusher.subscribe(`presence-rides-${rideData.passenger.email}`);
-    this.ride.bind('pusher:subscription_succeeded', (member) => {
-      console.log(member);
+    this.ride.bind('pusher:subscription_succeeded', () => {
       this.ride.trigger('client-driver-response', {
         accepted: true,
       });
@@ -104,10 +105,25 @@ class HomeScreen extends Component {
           this.clearCountNotification();
           driver.startRide();
           driver.calculateRegion();
+          this.driverDistanceToOrigin();
           this.ride.trigger('client-get-driver', user);
         }
       });
     });
+  }
+
+  driverDistanceToOrigin() {
+    const { locations, rideData } = this.props;
+    const distance = geodist(locations.userLocation, rideData.origin.location, {
+      unit: 'meters',
+      limit: 20,
+    });
+    console.log('driver ', distance);
+    if (distance) {
+      this.ride.trigger('client-driver-arrive', {
+        arrive: true,
+      });
+    }
   }
 
   clearCountNotification() {
@@ -122,7 +138,6 @@ class HomeScreen extends Component {
   }
 
   toggleAvaiable() {
-    console.log('pressed');
     this.setState(prev => ({ avaiable: !prev.avaiable }));
   }
 
@@ -161,6 +176,7 @@ HomeScreen.propTypes = {
   rideData: PropTypes.instanceOf(Object).isRequired,
   hasPassenger: PropTypes.bool.isRequired,
   user: PropTypes.instanceOf(Object).isRequired,
+  locations: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default connect(

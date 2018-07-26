@@ -82,6 +82,9 @@ class HomeScreen extends PureComponent {
           customer.setDriverData(data);
         });
       });
+      this.ride.bind('client-driver-arrive', () => {
+        customer.setDriverArrive();
+      });
     });
   }
 

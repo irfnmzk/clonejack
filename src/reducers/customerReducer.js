@@ -8,6 +8,7 @@ import {
   TOGGLE_SELECT_VIA_MAP,
   CUSTOMER_GET_ADDRESS_START,
   CUSTOMER_GET_ADDRESS_SUCCESS,
+  CUSTOMER_SET_DRIVER_ARRIVE,
 } from '../actions/constant/customer';
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
     destination: {},
     driver: {},
     status: 'PICKUP',
+    driverArrive: false,
     routeInfo: {
       distance: null,
       duration: null,
@@ -25,7 +27,7 @@ const initialState = {
     },
   },
   selectedLocation: {
-    isFetch: true,
+    isFetch: false,
     location: {},
     fullAddress: '',
     address: '',
@@ -119,6 +121,14 @@ export default (state = initialState, action) => {
         selectedLocation: {
           isFetch: false,
           ...action.payload,
+        },
+      };
+    case CUSTOMER_SET_DRIVER_ARRIVE:
+      return {
+        ...state,
+        ride: {
+          ...state.ride,
+          driverArrive: true,
         },
       };
     default:

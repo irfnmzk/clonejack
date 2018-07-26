@@ -25,6 +25,7 @@
   "dependencies": {
     "@google/maps": "^0.5.5",
     "axios": "^0.18.0",
+    "geodist": "^0.2.1",
     "native-base": "^2.7.1",
     "prop-types": "^15.6.2",
     "pusher-js": "^4.2.2",

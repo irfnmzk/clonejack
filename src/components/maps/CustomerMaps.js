@@ -17,6 +17,7 @@ const mapStateToProps = ({ location, customer }) => ({
   hasDirection: customer.customerUi.hasDirection,
   selectViaMap: customer.customerUi.selectViaMap,
   getAddressLoading: customer.selectedLocation.isFetch,
+  isSelectedDest: customer.customerUi.destinationSelected,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -28,8 +29,11 @@ class Maps extends Component {
   constructor() {
     super();
 
+    this.maps = null;
+
     this.onRegionChange = this.onRegionChange.bind(this);
     this.onRegionChangeComplete = this.onRegionChangeComplete.bind(this);
+    this.getRefMaps = this.getRefMaps.bind(this);
   }
 
   componentWillMount() {
@@ -55,6 +59,15 @@ class Maps extends Component {
     });
   }
 
+  componentDidUpdate(prev) {
+    const { isSelectedDest } = this.props;
+    if (prev.isSelectedDest !== isSelectedDest) {
+      if (isSelectedDest) {
+        // TODO: Navigate To certain coords
+      }
+    }
+  }
+
   onRegionChange(region) {
     const { selectViaMap, customer, getAddressLoading } = this.props;
     if (selectViaMap && !getAddressLoading) {
@@ -70,6 +83,16 @@ class Maps extends Component {
     }
   }
 
+  getRefMaps(ref) {
+    this.maps = ref;
+  }
+
+  animateToRegion() {
+    // TODO: Navigate Map
+    const { locations } = this.props;
+    this.maps.animateToNavigation(locations.region);
+  }
+
   render() {
     const {
       locations, hasDirection, destination, origin, customer,
@@ -81,6 +104,7 @@ class Maps extends Component {
         region={{ ...locations.region }}
         onRegionChange={this.onRegionChange}
         onRegionChangeComplete={this.onRegionChangeComplete}
+        ref={this.getRefMaps}
       >
         {hasDirection && (
           <MapViewDirections
@@ -109,6 +133,7 @@ Maps.propTypes = {
   hasDirection: PropTypes.bool.isRequired,
   selectViaMap: PropTypes.bool.isRequired,
   getAddressLoading: PropTypes.bool.isRequired,
+  isSelectedDest: PropTypes.bool.isRequired,
 };
 
 Maps.defaultProps = {

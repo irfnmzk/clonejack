@@ -30,34 +30,29 @@ class Maps extends Component {
       const { accuracy, latitude, longitude } = position.coords;
       const data = getRegionFrom(latitude, longitude, accuracy);
       location.setUserRegion(data);
+      location.setUserLocation({ latitude, longitude });
     });
   }
 
   componentDidMount() {
+    const { location, rideChannel } = this.props;
     this.watchID = navigator.geolocation.watchPosition((position) => {
-      const { accuracy, latitude, longitude } = position.coords;
-      const region = getRegionFrom(latitude, longitude, accuracy);
-      this.onRegionChange(region);
+      const { latitude, longitude } = position.coords;
+      if (rideChannel) {
+        console.log('hmm');
+      }
+      location.setUserLocation({ latitude, longitude });
     });
   }
 
-  onRegionChange(region) {
-    const { location } = this.props;
-    location.setUserRegion(region);
-  }
+  onRegionChange() {}
 
   render() {
     const { locations, ride, hasPassenger } = this.props;
-    console.log(ride);
     return (
-      <MapView.Animated
-        style={{ height: '100%' }}
-        showsUserLocation
-        region={new MapView.AnimatedRegion({ ...locations.region })}
-        onPress={e => console.log(e.nativeEvent.coordinate)}
-      >
+      <MapView style={{ height: '100%' }} showsUserLocation region={{ ...locations.region }}>
         {hasPassenger && <MapView.Marker coordinate={ride.origin.location} />}
-      </MapView.Animated>
+      </MapView>
     );
   }
 }
@@ -67,9 +62,12 @@ Maps.propTypes = {
   location: PropTypes.instanceOf(Object).isRequired,
   ride: PropTypes.instanceOf(Object).isRequired,
   hasPassenger: PropTypes.bool.isRequired,
+  rideChannel: PropTypes.instanceOf(Object),
 };
 
-Maps.defaultProps = {};
+Maps.defaultProps = {
+  rideChannel: null,
+};
 
 export default connect(
   mapStateToProps,
