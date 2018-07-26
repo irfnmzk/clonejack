@@ -3,6 +3,7 @@ import {
   SET_DRIVER_PASSENGER_DATA,
   START_DRIVER_RIDE,
   DRIVER_CALCULATE_REGION,
+  DRIVER_ARRIVE_TO_LOCATION,
 } from './constant/driver';
 import GetRegionFromCoods from '../utils/GetRegionFromCoods';
 
@@ -25,3 +26,7 @@ export const calculateRegion = () => {
     payload: data,
   };
 };
+
+export const driverArrive = () => ({
+  type: DRIVER_ARRIVE_TO_LOCATION,
+});

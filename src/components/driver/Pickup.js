@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'native-base';
+import PropTypes from 'prop-types';
 import styles from './styles/Pickup';
 
-const Pickup = () => (
+const Pickup = ({ data }) => (
   <View style={styles.Container}>
     <View style={styles.PickupCard}>
       <View style={styles.PickupCardName}>
@@ -23,7 +24,20 @@ const Pickup = () => (
         </Text>
       </View>
     </View>
+    {data.driverArrive && (
+      <View style={styles.ButtonContainer}>
+        <TouchableOpacity style={styles.Button}>
+          <Text style={styles.ButtonText}>
+            {'START TRIP'}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    )}
   </View>
 );
+
+Pickup.propTypes = {
+  data: PropTypes.instanceOf(Object).isRequired,
+};
 
 export default Pickup;

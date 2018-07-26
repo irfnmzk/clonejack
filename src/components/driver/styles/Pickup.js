@@ -54,4 +54,22 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: '800',
   },
+  ButtonContainer: {
+    padding: 15,
+    backgroundColor: 'white',
+    width: '95%',
+  },
+  Button: {
+    backgroundColor: 'green',
+    width: '100%',
+    height: 55,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+  },
+  ButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 24,
+  },
 });

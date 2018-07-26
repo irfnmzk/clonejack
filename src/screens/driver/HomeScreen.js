@@ -113,7 +113,7 @@ class HomeScreen extends Component {
   }
 
   driverDistanceToOrigin() {
-    const { locations, rideData } = this.props;
+    const { locations, rideData, driver } = this.props;
     const distance = geodist(locations.userLocation, rideData.origin.location, {
       unit: 'meters',
       limit: 20,
@@ -123,6 +123,7 @@ class HomeScreen extends Component {
       this.ride.trigger('client-driver-arrive', {
         arrive: true,
       });
+      driver.driverArrive();
     }
   }
 
@@ -157,7 +158,7 @@ class HomeScreen extends Component {
         <View>
           <Maps />
         </View>
-        {hasPassenger && <Pickup />}
+        {hasPassenger && <Pickup data={rideData} />}
         <Notification
           show={showNotification}
           toggleNotification={this.toggleNotification}
