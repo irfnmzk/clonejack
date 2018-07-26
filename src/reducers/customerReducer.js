@@ -35,6 +35,7 @@ const initialState = {
     isBooked: false,
     hasDirection: false,
     selectViaMap: false,
+    selectViaMapType: '',
   },
 };
 
@@ -101,6 +102,7 @@ export default (state = initialState, action) => {
         customerUi: {
           ...state.customerUi,
           selectViaMap: !state.customerUi.selectViaMap,
+          selectViaMapType: action.payload || '',
         },
       };
     case CUSTOMER_GET_ADDRESS_START:

@@ -58,7 +58,6 @@ class Maps extends Component {
   onRegionChange(region) {
     const { selectViaMap, customer, getAddressLoading } = this.props;
     if (selectViaMap && !getAddressLoading) {
-      console.log('loading: ', getAddressLoading);
       customer.getAddressStart(region);
     }
   }

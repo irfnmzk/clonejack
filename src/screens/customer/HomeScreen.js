@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { Container } from 'native-base';
@@ -30,6 +30,7 @@ const mapStateToProps = ({ customer, auth }) => ({
   user: auth.user,
   hasRide: customer.hasRide,
   selectViaMap: customer.customerUi.selectViaMap,
+  selectViaMapType: customer.customerUi.selectViaMapType,
   selectedLocation: customer.selectedLocation,
 });
 
@@ -40,7 +41,7 @@ const mapDispatchToProps = dispatch => ({
 
 Pusher.logToConsole = false;
 
-class HomeScreen extends Component {
+class HomeScreen extends PureComponent {
   constructor() {
     super();
 
@@ -59,6 +60,7 @@ class HomeScreen extends Component {
     this.onBookPressed = this.onBookPressed.bind(this);
     this.toggleRouteInfo = this.toggleRouteInfo.bind(this);
     this.requestDriver = this.requestDriver.bind(this);
+    this.setLocationByMaps = this.setLocationByMaps.bind(this);
   }
 
   componentWillMount() {
@@ -96,14 +98,23 @@ class HomeScreen extends Component {
     location.calculateNewRegion();
   }
 
-  openDestinationSelect() {
-    const { navigation } = this.props;
-    navigation.navigate('GetDestination', { type: 'destination' });
-  }
-
-  openOriginSelect() {
-    const { navigation } = this.props;
-    navigation.navigate('GetDestination', { type: 'origin' });
+  setLocationByMaps() {
+    const { customer, selectedLocation, selectViaMapType } = this.props;
+    const { location, fullAddress } = selectedLocation;
+    const place = {
+      description: fullAddress,
+      location: {
+        latitude: location.lat,
+        longitude: location.lng,
+      },
+    };
+    if (selectViaMapType === 'destination') {
+      customer.setCustomerDestination(place);
+      customer.toggleSelectViaMap();
+    } else {
+      customer.setCustomerOrigin(place);
+      customer.toggleSelectViaMap();
+    }
   }
 
   toggleRouteInfo() {
@@ -111,6 +122,16 @@ class HomeScreen extends Component {
     this.setState({
       showRouteInfo: !showRouteInfo,
     });
+  }
+
+  openOriginSelect() {
+    const { navigation } = this.props;
+    navigation.navigate('GetDestination', { type: 'origin' });
+  }
+
+  openDestinationSelect() {
+    const { navigation } = this.props;
+    navigation.navigate('GetDestination', { type: 'destination' });
   }
 
   requestDriver() {
@@ -159,8 +180,16 @@ class HomeScreen extends Component {
   }
 
   renderBookLocationButton() {
-    const { selectViaMap, selectedLocation } = this.props;
-    return selectViaMap ? <LocationInfo data={selectedLocation} /> : this.renderBookMenu();
+    const { selectViaMap, selectedLocation, customer } = this.props;
+    return selectViaMap ? (
+      <LocationInfo
+        data={selectedLocation}
+        onCancel={customer.toggleSelectViaMap}
+        onSelect={this.setLocationByMaps}
+      />
+    ) : (
+      this.renderBookMenu()
+    );
   }
 
   render() {
@@ -194,6 +223,7 @@ HomeScreen.propTypes = {
   user: PropTypes.instanceOf(Object).isRequired,
   hasRide: PropTypes.bool.isRequired,
   selectViaMap: PropTypes.bool.isRequired,
+  selectViaMapType: PropTypes.string.isRequired,
   selectedLocation: PropTypes.instanceOf(Object).isRequired,
 };
 

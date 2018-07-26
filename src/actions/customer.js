@@ -47,8 +47,9 @@ export const setDriverData = data => ({
   payload: data,
 });
 
-export const toggleSelectViaMap = () => ({
+export const toggleSelectViaMap = data => ({
   type: TOGGLE_SELECT_VIA_MAP,
+  payload: data,
 });
 
 export const getAddressStart = () => ({

@@ -18,7 +18,7 @@ const mapStateToProps = ({ location }) => ({
 const mapDispatchToProps = dispatch => ({
   setCustomerDest: loc => dispatch(setCustomerDestination(loc)),
   setCustomerOrg: loc => dispatch(setCustomerOrigin(loc)),
-  toggleSelectViaMaps: () => dispatch(toggleSelectViaMap()),
+  toggleSelectViaMaps: data => dispatch(toggleSelectViaMap(data)),
 });
 
 class GetDestination extends Component {
@@ -63,7 +63,7 @@ class GetDestination extends Component {
           }}
           onPress={(data, detail) => {
             if (data.description === 'Select in Map') {
-              toggleSelectViaMaps();
+              toggleSelectViaMaps(type);
               return navigation.goBack();
             }
             const place = {
