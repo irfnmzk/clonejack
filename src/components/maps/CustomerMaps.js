@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { View } from 'react-native';
 import PropTypes from 'prop-types';
-import MapView from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import MapViewDirections from 'react-native-maps-directions';
@@ -105,6 +105,7 @@ class Maps extends Component {
         onRegionChange={this.onRegionChange}
         onRegionChangeComplete={this.onRegionChangeComplete}
         ref={this.getRefMaps}
+        provider={PROVIDER_GOOGLE}
       >
         {hasDirection && (
           <MapViewDirections

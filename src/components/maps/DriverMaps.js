@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { View } from 'react-native';
 import PropTypes from 'prop-types';
-import MapView from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as locationAction from '../../actions/location';
@@ -50,7 +50,12 @@ class Maps extends Component {
   render() {
     const { locations, ride, hasPassenger } = this.props;
     return (
-      <MapView style={{ height: '100%' }} showsUserLocation region={{ ...locations.region }}>
+      <MapView
+        style={{ height: '100%' }}
+        showsUserLocation
+        region={{ ...locations.region }}
+        provider={PROVIDER_GOOGLE}
+      >
         {hasPassenger && <MapView.Marker coordinate={ride.origin.location} />}
       </MapView>
     );
