@@ -206,7 +206,7 @@ class HomeScreen extends PureComponent {
         <View style={styles.Container}>
           <Maps />
         </View>
-        {hasRide ? <RideState /> : this.renderBookLocation()}
+        {hasRide ? <RideState data={ride} /> : this.renderBookLocation()}
         {hasRide ? <RideMenu data={ride} /> : this.renderBookLocationButton()}
         <RouteInfo info={routeInfo} show={showRouteInfo} onPress={this.toggleRouteInfo} />
       </Container>
