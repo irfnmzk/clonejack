@@ -144,7 +144,9 @@ class HomeScreen extends Component {
   }
 
   startRide() {
-    console.log('start ride');
+    const { driver } = this.props;
+    driver.driverStartRide();
+    this.ride.trigger('client-driver-start-ride', { ride: true });
   }
 
   render() {

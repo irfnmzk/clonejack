@@ -4,6 +4,7 @@ import {
   START_DRIVER_RIDE,
   DRIVER_CALCULATE_REGION,
   DRIVER_ARRIVE_TO_LOCATION,
+  DRIVER_START_RIDE,
 } from './constant/driver';
 import GetRegionFromCoods from '../utils/GetRegionFromCoods';
 
@@ -29,4 +30,8 @@ export const calculateRegion = () => {
 
 export const driverArrive = () => ({
   type: DRIVER_ARRIVE_TO_LOCATION,
+});
+
+export const driverStartRide = () => ({
+  type: DRIVER_START_RIDE,
 });

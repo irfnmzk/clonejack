@@ -6,32 +6,36 @@ import styles from './styles/rideMenu';
 
 const RideMenu = ({ data }) => (
   <View style={styles.Container}>
-    <View style={styles.InfoContainer}>
-      <View style={styles.InfoItem}>
-        <Icon name="user-secret" type="FontAwesome" style={styles.InfoIcon} />
-        <Text style={styles.InfoText}>
-          {data.driver.name}
-        </Text>
+    {!data.onRide && (
+      <View style={styles.InfoContainer}>
+        <View style={styles.InfoItem}>
+          <Icon name="user-secret" type="FontAwesome" style={styles.InfoIcon} />
+          <Text style={styles.InfoText}>
+            {data.driver.name}
+          </Text>
+        </View>
+        <View style={styles.InfoItem}>
+          <Icon name="motorbike" type="MaterialCommunityIcons" style={styles.InfoIcon} />
+          <Text style={styles.InfoText}>
+            {data.driver.vehicle.name}
+          </Text>
+        </View>
       </View>
-      <View style={styles.InfoItem}>
-        <Icon name="motorbike" type="MaterialCommunityIcons" style={styles.InfoIcon} />
-        <Text style={styles.InfoText}>
-          {data.driver.vehicle.name}
-        </Text>
+    )}
+    {!data.onRide && (
+      <View style={styles.ButtonContainer}>
+        <TouchableHighlight style={[styles.Button, styles.ButtonContact]}>
+          <Text style={[styles.Text, styles.TextContact]}>
+            {'Contact'}
+          </Text>
+        </TouchableHighlight>
+        <TouchableHighlight style={[styles.Button, styles.ButtonCancel]}>
+          <Text style={[styles.Text, styles.TextCancel]}>
+            {'Cancel'}
+          </Text>
+        </TouchableHighlight>
       </View>
-    </View>
-    <View style={styles.ButtonContainer}>
-      <TouchableHighlight style={[styles.Button, styles.ButtonContact]}>
-        <Text style={[styles.Text, styles.TextContact]}>
-          {'Contact'}
-        </Text>
-      </TouchableHighlight>
-      <TouchableHighlight style={[styles.Button, styles.ButtonCancel]}>
-        <Text style={[styles.Text, styles.TextCancel]}>
-          {'Cancel'}
-        </Text>
-      </TouchableHighlight>
-    </View>
+    )}
   </View>
 );
 

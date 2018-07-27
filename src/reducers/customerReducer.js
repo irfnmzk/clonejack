@@ -9,6 +9,7 @@ import {
   CUSTOMER_GET_ADDRESS_START,
   CUSTOMER_GET_ADDRESS_SUCCESS,
   CUSTOMER_SET_DRIVER_ARRIVE,
+  CUSTOMER_START_DRIVE,
 } from '../actions/constant/customer';
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
     origin: {},
     destination: {},
     driver: {},
+    onRide: false,
     status: 'PICKUP',
     driverArrive: false,
     routeInfo: {
@@ -129,6 +131,15 @@ export default (state = initialState, action) => {
         ride: {
           ...state.ride,
           driverArrive: true,
+        },
+      };
+    case CUSTOMER_START_DRIVE:
+      return {
+        ...state,
+        ride: {
+          ...state.ride,
+          status: 'RIDE',
+          onRide: true,
         },
       };
     default:

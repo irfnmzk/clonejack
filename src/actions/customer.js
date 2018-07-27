@@ -9,6 +9,7 @@ import {
   CUSTOMER_GET_ADDRESS_SUCCESS,
   CUSTOMER_GET_ADDRESS_START,
   CUSTOMER_SET_DRIVER_ARRIVE,
+  CUSTOMER_START_DRIVE,
 } from './constant/customer';
 import { getAddressByCoords } from '../utils/NearbyPlace';
 
@@ -77,4 +78,8 @@ export const getAddressFromLocation = ({ latitude, longitude }) => (dispatch) =>
 
 export const setDriverArrive = () => ({
   type: CUSTOMER_SET_DRIVER_ARRIVE,
+});
+
+export const startRide = () => ({
+  type: CUSTOMER_START_DRIVE,
 });

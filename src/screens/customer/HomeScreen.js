@@ -64,28 +64,13 @@ class HomeScreen extends PureComponent {
   }
 
   componentWillMount() {
-    const { hasRide, user, customer } = this.props;
+    // initialize Pusher connection
     this.pusher = new Pusher('d5e8162e2071d516fe7b', {
       authEndpoint: 'https://pusher-channels-auth-example-hdzhdqknhl.now.sh/pusher/auth',
       cluster: 'ap1',
       encrypted: true,
     });
-
-    this.driver = this.pusher.subscribe('private-drivers');
-    this.ride = this.pusher.subscribe(`presence-rides-${user.email}`);
-    this.ride.bind('pusher:subscription_succeeded', () => {
-      this.ride.bind('client-driver-response', () => {
-        this.ride.trigger('client-customer-response', {
-          accepted: !hasRide,
-        });
-        this.ride.bind('client-get-driver', (data) => {
-          customer.setDriverData(data);
-        });
-      });
-      this.ride.bind('client-driver-arrive', () => {
-        customer.setDriverArrive();
-      });
-    });
+    this.listenToAllChannel();
   }
 
   componentWillUnmount() {
@@ -118,6 +103,29 @@ class HomeScreen extends PureComponent {
       customer.setCustomerOrigin(place);
       customer.toggleSelectViaMap();
     }
+  }
+
+  listenToAllChannel() {
+    const { hasRide, user, customer } = this.props;
+
+    this.driver = this.pusher.subscribe('private-drivers');
+    this.ride = this.pusher.subscribe(`presence-rides-${user.email}`);
+    this.ride.bind('pusher:subscription_succeeded', () => {
+      this.ride.bind('client-driver-response', () => {
+        this.ride.trigger('client-customer-response', {
+          accepted: !hasRide,
+        });
+        this.ride.bind('client-get-driver', (data) => {
+          customer.setDriverData(data);
+        });
+      });
+      this.ride.bind('client-driver-arrive', () => {
+        customer.setDriverArrive();
+      });
+      this.ride.bind('client-driver-start-ride', () => {
+        customer.startRide();
+      });
+    });
   }
 
   toggleRouteInfo() {

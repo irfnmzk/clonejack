@@ -6,7 +6,9 @@ import styles from './styles/rideState';
 const RideState = ({ data }) => (
   <View style={styles.Container}>
     <Text style={styles.Text}>
-      {data.driverArrive ? 'DRIVER WAITING AT LOCATION' : 'DRIVER CONFIRMED AND COMING'}
+      {!data.onRide
+        && (data.driverArrive ? 'DRIVER WAITING AT LOCATION' : 'DRIVER CONFIRMED AND COMING')}
+      {data.onRide && 'YOU ARE ON RIDE'}
     </Text>
   </View>
 );

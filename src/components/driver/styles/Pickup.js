@@ -72,4 +72,14 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 24,
   },
+  ButtonCompleteContainer: {
+    width: '100%',
+    alignItems: 'center',
+    height: 50,
+  },
+  ButtonCompleteText: {
+    color: 'white',
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
 });

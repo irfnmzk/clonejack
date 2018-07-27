@@ -2,11 +2,13 @@ import {
   SET_DRIVER_PASSENGER_DATA,
   START_DRIVER_RIDE,
   DRIVER_ARRIVE_TO_LOCATION,
+  DRIVER_START_RIDE,
 } from '../actions/constant/driver';
 
 const initialState = {
   hasPassenger: false,
   ride: {
+    onRide: false,
     driverArrive: false,
     status: 'PICKUP',
   },
@@ -33,6 +35,15 @@ export default (state = initialState, action) => {
         ride: {
           ...state.ride,
           driverArrive: true,
+        },
+      };
+    case DRIVER_START_RIDE:
+      return {
+        ...state,
+        ride: {
+          ...state.ride,
+          status: 'RIDE',
+          onRide: true,
         },
       };
     default:

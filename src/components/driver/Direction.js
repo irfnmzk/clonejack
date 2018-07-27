@@ -11,7 +11,7 @@ const Direction = ({ data }) => (
     </View>
     <View style={styles.PlaceContainer}>
       <Text style={styles.PlaceText}>
-        {data.origin.description}
+        {data.onRide ? data.destination.description : data.origin.description}
       </Text>
     </View>
   </View>
