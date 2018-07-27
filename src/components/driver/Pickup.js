@@ -4,7 +4,7 @@ import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
 import styles from './styles/Pickup';
 
-const Pickup = ({ data }) => (
+const Pickup = ({ data, onStart }) => (
   <View style={styles.Container}>
     <View style={styles.PickupCard}>
       <View style={styles.PickupCardName}>
@@ -26,7 +26,7 @@ const Pickup = ({ data }) => (
     </View>
     {data.driverArrive && (
       <View style={styles.ButtonContainer}>
-        <TouchableOpacity style={styles.Button}>
+        <TouchableOpacity style={styles.Button} onPress={onStart}>
           <Text style={styles.ButtonText}>
             {'START TRIP'}
           </Text>
@@ -38,6 +38,7 @@ const Pickup = ({ data }) => (
 
 Pickup.propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,
+  onStart: PropTypes.func.isRequired,
 };
 
 export default Pickup;

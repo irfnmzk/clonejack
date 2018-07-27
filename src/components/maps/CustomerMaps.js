@@ -46,6 +46,7 @@ class Maps extends Component {
     if (!isSelectedDest) {
       this.getInitalRegionByPosition();
     }
+    this.watchPosition();
   }
 
   componentDidUpdate(prev) {

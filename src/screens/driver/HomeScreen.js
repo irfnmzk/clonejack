@@ -48,6 +48,7 @@ class HomeScreen extends Component {
     this.toggleNotification = this.toggleNotification.bind(this);
     this.toggleAvaiable = this.toggleAvaiable.bind(this);
     this.acceptOrder = this.acceptOrder.bind(this);
+    this.startRide = this.startRide.bind(this);
   }
 
   componentWillMount() {
@@ -142,6 +143,10 @@ class HomeScreen extends Component {
     this.setState(prev => ({ avaiable: !prev.avaiable }));
   }
 
+  startRide() {
+    console.log('start ride');
+  }
+
   render() {
     const { navigation, hasPassenger, rideData } = this.props;
     const {
@@ -158,7 +163,7 @@ class HomeScreen extends Component {
         <View>
           <Maps />
         </View>
-        {hasPassenger && <Pickup data={rideData} />}
+        {hasPassenger && <Pickup data={rideData} onStart={this.startRide} />}
         <Notification
           show={showNotification}
           toggleNotification={this.toggleNotification}
