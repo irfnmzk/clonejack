@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { View } from 'react-native';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { connect } from 'react-redux';
@@ -31,32 +31,21 @@ class Maps extends Component {
 
     this.maps = null;
 
+    this.state = {
+      hasInitialRegion: false,
+    };
+
     this.onRegionChange = this.onRegionChange.bind(this);
     this.onRegionChangeComplete = this.onRegionChangeComplete.bind(this);
     this.getRefMaps = this.getRefMaps.bind(this);
   }
 
-  componentWillMount() {
-    const { location, customer } = this.props;
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const { accuracy, latitude, longitude } = position.coords;
-      const data = getRegionFrom(latitude, longitude, accuracy);
-      location.setUserRegion(data);
-      const description = await getAddress({ latitude, longitude });
-      customer.setCustomerOrigin({
-        description,
-        location: { latitude: data.latitude, longitude: data.longitude },
-      });
-    });
-  }
-
   componentDidMount() {
-    const { location } = this.props;
-    this.watchID = navigator.geolocation.watchPosition((position) => {
-      const { accuracy, latitude, longitude } = position.coords;
-      const region = getRegionFrom(latitude, longitude, accuracy);
-      location.setUserRegion(region);
-    });
+    const { isSelectedDest } = this.props;
+
+    if (!isSelectedDest) {
+      this.getInitalRegionByPosition();
+    }
   }
 
   componentDidUpdate(prev) {
@@ -68,6 +57,10 @@ class Maps extends Component {
     }
   }
 
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
+
   onRegionChange(region) {
     const { selectViaMap, customer, getAddressLoading } = this.props;
     if (selectViaMap && !getAddressLoading) {
@@ -77,14 +70,42 @@ class Maps extends Component {
 
   onRegionChangeComplete(region) {
     const { selectViaMap, customer, location } = this.props;
+    const { hasInitialRegion } = this.state;
     if (selectViaMap) {
       customer.getAddressFromLocation(region);
+    }
+    if (hasInitialRegion) {
+      console.log('hasInitial refion');
       location.setUserRegion(region);
     }
   }
 
+  getInitalRegionByPosition() {
+    const { location, customer } = this.props;
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      console.log('getting position');
+      const { accuracy, latitude, longitude } = position.coords;
+      const data = getRegionFrom(latitude, longitude, accuracy);
+      const description = await getAddress({ latitude, longitude });
+      this.setState({ hasInitialRegion: true });
+      location.setUserRegion(data);
+      customer.setCustomerOrigin({
+        description,
+        location: { latitude: data.latitude, longitude: data.longitude },
+      });
+    });
+  }
+
   getRefMaps(ref) {
     this.maps = ref;
+  }
+
+  watchPosition() {
+    const { location } = this.props;
+    this.watchID = navigator.geolocation.watchPosition((positions) => {
+      const { latitude, longitude } = positions.coords;
+      location.setUserLocation({ latitude, longitude });
+    });
   }
 
   animateToRegion() {
@@ -97,12 +118,12 @@ class Maps extends Component {
     const {
       locations, hasDirection, destination, origin, customer,
     } = this.props;
+    if (!(locations.region.latitude && locations.region.longitude)) return <View style={{ height: '100%', width: '100%' }} />;
     return (
       <MapView
         style={{ height: '100%' }}
         showsUserLocation
-        region={{ ...locations.region }}
-        onRegionChange={this.onRegionChange}
+        region={locations.region}
         onRegionChangeComplete={this.onRegionChangeComplete}
         ref={this.getRefMaps}
         provider={PROVIDER_GOOGLE}
