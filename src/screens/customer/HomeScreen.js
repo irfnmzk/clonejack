@@ -81,9 +81,9 @@ class HomeScreen extends PureComponent {
   }
 
   onBookPressed() {
-    const { customer, location } = this.props;
+    const { customer, location, ride } = this.props;
     customer.toggleBookState();
-    location.calculateNewRegion();
+    location.calculateNewRegion(ride);
   }
 
   setLocationByMaps() {

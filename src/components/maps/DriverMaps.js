@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { View } from 'native-base';
@@ -76,6 +77,15 @@ class Maps extends Component {
         provider={PROVIDER_GOOGLE}
       >
         {hasPassenger && <MapView.Marker coordinate={ride.origin.location} />}
+        {ride.onRide && (
+          <MapViewDirections
+            apikey="AIzaSyDc63AZDDPycmk1Vc9hmskLZvu1AbWIAbk"
+            origin={ride.origin.location}
+            destination={ride.destination.location}
+            strokeWidth={5}
+            strokeColor="hotpink"
+          />
+        )}
       </MapView>
     );
   }

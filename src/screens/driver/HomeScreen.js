@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import { Container } from 'native-base';
 import { connect } from 'react-redux';
@@ -8,6 +8,7 @@ import Pusher from 'pusher-js/react-native';
 import timer from 'react-native-timer';
 import geodist from 'geodist';
 import * as driverAction from '../../actions/driver';
+import * as locationAction from '../../actions/location';
 import Maps from '../../components/maps/DriverMaps';
 import Header from '../../components/commons/Header';
 import Notification from '../../components/driver/Notification';
@@ -25,11 +26,12 @@ const mapStateToProps = ({ driver, auth, location }) => ({
 
 const mapDispatchToProps = dispatch => ({
   driver: bindActionCreators(driverAction, dispatch),
+  location: bindActionCreators(locationAction, dispatch),
 });
 
 Pusher.logToConsole = false;
 
-class HomeScreen extends Component {
+class HomeScreen extends PureComponent {
   constructor() {
     super();
 
@@ -144,9 +146,10 @@ class HomeScreen extends Component {
   }
 
   startRide() {
-    const { driver } = this.props;
+    const { driver, location, rideData } = this.props;
     driver.driverStartRide();
     this.ride.trigger('client-driver-start-ride', { ride: true });
+    location.calculateNewRegion(rideData);
   }
 
   render() {
@@ -185,6 +188,7 @@ HomeScreen.propTypes = {
   hasPassenger: PropTypes.bool.isRequired,
   user: PropTypes.instanceOf(Object).isRequired,
   locations: PropTypes.instanceOf(Object).isRequired,
+  location: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default connect(

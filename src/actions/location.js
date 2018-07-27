@@ -12,9 +12,7 @@ export const setUserLocation = data => ({
   payload: data,
 });
 
-export const calculateNewRegion = () => {
-  const storeData = store.getState();
-  const { ride } = storeData.customer;
+export const calculateNewRegion = (ride) => {
   const coords = [ride.origin.location, ride.destination.location];
   const data = GetRegionFromCoods(coords);
   return {
