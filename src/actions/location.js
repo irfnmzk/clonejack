@@ -1,4 +1,3 @@
-import store from '../store';
 import GetRegionFromCoods from '../utils/GetRegionFromCoods';
 import { SET_USER_LOCATION, SET_USER_LOCATION_REGION } from './constant/location';
 

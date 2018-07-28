@@ -17,6 +17,7 @@ const mapStateToProps = ({ location, customer }) => ({
   hasDirection: customer.customerUi.hasDirection,
   selectViaMap: customer.customerUi.selectViaMap,
   getAddressLoading: customer.selectedLocation.isFetch,
+  onRide: customer.ride.onRide,
   isSelectedDest: customer.customerUi.destinationSelected,
 });
 
@@ -62,10 +63,10 @@ class Maps extends Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  onRegionChange(region) {
-    const { selectViaMap, customer, getAddressLoading } = this.props;
-    if (selectViaMap && !getAddressLoading) {
-      customer.getAddressStart(region);
+  onRegionChange() {
+    const { onRide, location } = this.props;
+    if (onRide) {
+      location.setUserRegion();
     }
   }
 
@@ -125,6 +126,7 @@ class Maps extends Component {
         style={{ height: '100%' }}
         showsUserLocation
         region={locations.region}
+        onRegionChange={this.onRegionChange}
         onRegionChangeComplete={this.onRegionChangeComplete}
         ref={this.getRefMaps}
         provider={PROVIDER_GOOGLE}
@@ -155,8 +157,8 @@ Maps.propTypes = {
   customer: PropTypes.instanceOf(Object).isRequired,
   hasDirection: PropTypes.bool.isRequired,
   selectViaMap: PropTypes.bool.isRequired,
-  getAddressLoading: PropTypes.bool.isRequired,
   isSelectedDest: PropTypes.bool.isRequired,
+  onRide: PropTypes.bool.isRequired,
 };
 
 Maps.defaultProps = {

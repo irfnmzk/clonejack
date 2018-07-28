@@ -56,7 +56,6 @@ class Maps extends Component {
   watchPosition() {
     const { location, rideChannel } = this.props;
     this.watchID = navigator.geolocation.watchPosition((position) => {
-      console.log('get the position');
       const { latitude, longitude } = position.coords;
       if (rideChannel) {
         console.log('hmm');
@@ -77,6 +76,7 @@ class Maps extends Component {
         provider={PROVIDER_GOOGLE}
       >
         {hasPassenger && <MapView.Marker coordinate={ride.origin.location} />}
+        {ride.onRide && <MapView.Marker coordinate={ride.destination.location} />}
         {ride.onRide && (
           <MapViewDirections
             apikey="AIzaSyDc63AZDDPycmk1Vc9hmskLZvu1AbWIAbk"

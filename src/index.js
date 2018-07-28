@@ -1,18 +1,21 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import Auth from './route/auth';
 import Driver from './route/driver';
 import Customer from './route/customer';
 
-const mapStateToProps = ({ auth }) => ({
+const mapStateToProps = ({auth}) => ({
   isLogin: auth.isLogin,
   role: auth.user.role,
+
+
+
 });
 
 class App extends PureComponent {
   render() {
-    const { isLogin, role } = this.props;
+    const {isLogin, role} = this.props;
     if (isLogin) {
       return role === 'driver' ? <Driver /> : <Customer />;
     }
