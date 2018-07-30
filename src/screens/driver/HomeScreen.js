@@ -15,6 +15,7 @@ import Notification from '../../components/driver/Notification';
 import StandBy from '../../components/driver/StandBy';
 import Direction from '../../components/driver/Direction';
 import Pickup from '../../components/driver/Pickup';
+import Collect from '../../components/driver/Collect';
 
 const mapStateToProps = ({driver, auth, location}) => ({
   locations: location,
@@ -181,7 +182,9 @@ class HomeScreen extends PureComponent {
   renderRide() {
     const {rideData, rideDone} = this.props;
 
-    return rideDone ? null : (
+    return rideDone ? (
+      <Collect />
+    ) : (
       <Pickup
         data={rideData}
         onStart={this.startRide}

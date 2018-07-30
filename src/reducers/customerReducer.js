@@ -10,6 +10,7 @@ import {
   CUSTOMER_GET_ADDRESS_SUCCESS,
   CUSTOMER_SET_DRIVER_ARRIVE,
   CUSTOMER_START_DRIVE,
+  CUSTOMER_FINISH_DRIVE,
 } from '../actions/constant/customer';
 
 const initialState = {
@@ -141,6 +142,15 @@ export default (state = initialState, action) => {
           ...state.ride,
           status: 'RIDE',
           onRide: true,
+        },
+      };
+    case CUSTOMER_FINISH_DRIVE:
+      return {
+        ...state,
+        ride: {
+          ...state.ride,
+          status: 'finish',
+          isDone: true,
         },
       };
     default:
