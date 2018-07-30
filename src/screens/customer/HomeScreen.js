@@ -108,7 +108,7 @@ class HomeScreen extends PureComponent {
   }
 
   listenToAllChannel() {
-    const {hasRide, user, customer} = this.props;
+    const {hasRide, user, customer, navigation} = this.props;
 
     this.driver = this.pusher.subscribe('private-drivers');
     this.ride = this.pusher.subscribe(`presence-rides-${user.email}`);
@@ -129,6 +129,7 @@ class HomeScreen extends PureComponent {
       });
       this.ride.bind('client-ride-finish', () => {
         customer.finishRide();
+        navigation.navigate('Review')
       });
     });
   }

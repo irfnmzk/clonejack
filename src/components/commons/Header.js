@@ -7,10 +7,17 @@ import BackButton from './BackButton';
 import SidebarButton from './SidebarButton';
 import styles from './styles/Header';
 
-const Headers = ({ title, navigation, sideBar }) => (
+const Headers = ({
+  title, navigation, sideBar, noGoback,
+}) => (
   <Header style={styles.Header}>
     <Left>
-      {sideBar ? <SidebarButton navigation={navigation} /> : <BackButton navigation={navigation} />}
+      {!noGoback
+        && (sideBar ? (
+          <SidebarButton navigation={navigation} />
+        ) : (
+          <BackButton navigation={navigation} />
+        ))}
     </Left>
     <Body>
       <Title>
@@ -24,10 +31,12 @@ const Headers = ({ title, navigation, sideBar }) => (
 Headers.propTypes = {
   title: PropTypes.string.isRequired,
   sideBar: PropTypes.bool,
+  noGoback: PropTypes.bool,
 };
 
 Headers.defaultProps = {
   sideBar: false,
+  noGoback: false,
 };
 
 export default Headers;
