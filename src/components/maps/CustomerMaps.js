@@ -36,7 +36,7 @@ class Maps extends Component {
       hasInitialRegion: false,
     };
 
-    this.onRegionChange = this.onRegionChange.bind(this);
+    // this.onRegionChange = this.onRegionChange.bind(this);
     this.onRegionChangeComplete = this.onRegionChangeComplete.bind(this);
     this.getRefMaps = this.getRefMaps.bind(this);
   }
@@ -63,12 +63,12 @@ class Maps extends Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  onRegionChange() {
-    const { onRide, location } = this.props;
-    if (onRide) {
-      location.setUserRegion();
-    }
-  }
+  // onRegionChange(coords) {
+  //   const { onRide, location } = this.props;
+  //   if (onRide) {
+  //     location.setUserRegion(coords);
+  //   }
+  // }
 
   onRegionChangeComplete(region) {
     const { selectViaMap, customer, location } = this.props;
@@ -126,7 +126,7 @@ class Maps extends Component {
         style={{ height: '100%' }}
         showsUserLocation
         region={locations.region}
-        onRegionChange={this.onRegionChange}
+        // onRegionChange={this.onRegionChange}
         onRegionChangeComplete={this.onRegionChangeComplete}
         ref={this.getRefMaps}
         provider={PROVIDER_GOOGLE}
@@ -158,7 +158,7 @@ Maps.propTypes = {
   hasDirection: PropTypes.bool.isRequired,
   selectViaMap: PropTypes.bool.isRequired,
   isSelectedDest: PropTypes.bool.isRequired,
-  onRide: PropTypes.bool.isRequired,
+  // onRide: PropTypes.bool.isRequired,
 };
 
 Maps.defaultProps = {

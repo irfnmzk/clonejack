@@ -1,8 +1,8 @@
-import React, {PureComponent} from 'react';
-import {View} from 'react-native';
-import {Container} from 'native-base';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { PureComponent } from 'react';
+import { View } from 'react-native';
+import { Container } from 'native-base';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Pusher from 'pusher-js/react-native';
 import timer from 'react-native-timer';
@@ -17,7 +17,7 @@ import Direction from '../../components/driver/Direction';
 import Pickup from '../../components/driver/Pickup';
 import Collect from '../../components/driver/Collect';
 
-const mapStateToProps = ({driver, auth, location}) => ({
+const mapStateToProps = ({ driver, auth, location }) => ({
   locations: location,
   drivers: driver,
   rideData: driver.ride,
@@ -54,21 +54,21 @@ class HomeScreen extends PureComponent {
     this.acceptOrder = this.acceptOrder.bind(this);
     this.startRide = this.startRide.bind(this);
     this.finishRide = this.finishRide.bind(this);
+    this.clearRideData = this.clearRideData.bind(this);
   }
 
   componentWillMount() {
-    const {driver} = this.props;
+    const { driver } = this.props;
     this.pusher = new Pusher('d5e8162e2071d516fe7b', {
-      authEndpoint:
-        'https://pusher-channels-auth-example-hdzhdqknhl.now.sh/pusher/auth',
+      authEndpoint: 'https://pusher-channels-auth-example-hdzhdqknhl.now.sh/pusher/auth',
       cluster: 'ap1',
       encrypted: true,
     });
 
     this.driver = this.pusher.subscribe('private-drivers');
 
-    this.driver.bind('client-request-driver', data => {
-      const {showNotification, avaiable} = this.state;
+    this.driver.bind('client-request-driver', (data) => {
+      const { showNotification, avaiable } = this.state;
       if (!showNotification && avaiable) {
         driver.setPassenger(data);
         this.showNotification();
@@ -84,9 +84,9 @@ class HomeScreen extends PureComponent {
       'count',
       () => {
         this.setState(
-          prev => ({count: prev.count - 1}),
+          prev => ({ count: prev.count - 1 }),
           () => {
-            const {count} = this.state;
+            const { count } = this.state;
             if (count < 1) {
               this.clearCountNotification();
             }
@@ -98,18 +98,16 @@ class HomeScreen extends PureComponent {
   }
 
   acceptOrder() {
-    const {rideData, driver, user} = this.props;
+    const { rideData, driver, user } = this.props;
     this.setState({
       disableAccept: true,
     });
-    this.ride = this.pusher.subscribe(
-      `presence-rides-${rideData.passenger.email}`,
-    );
+    this.ride = this.pusher.subscribe(`presence-rides-${rideData.passenger.email}`);
     this.ride.bind('pusher:subscription_succeeded', () => {
       this.ride.trigger('client-driver-response', {
         accepted: true,
       });
-      this.ride.bind('client-customer-response', response => {
+      this.ride.bind('client-customer-response', (response) => {
         if (response.accepted) {
           this.clearCountNotification();
           driver.startRide();
@@ -122,7 +120,7 @@ class HomeScreen extends PureComponent {
   }
 
   driverDistanceToOrigin() {
-    const {locations, rideData, driver} = this.props;
+    const { locations, rideData, driver } = this.props;
     const distance = geodist(locations.userLocation, rideData.origin.location, {
       unit: 'meters',
       limit: 20,
@@ -152,25 +150,31 @@ class HomeScreen extends PureComponent {
   }
 
   toggleAvaiable() {
-    this.setState(prev => ({avaiable: !prev.avaiable}));
+    this.setState(prev => ({ avaiable: !prev.avaiable }));
   }
 
   startRide() {
-    const {driver, location, rideData} = this.props;
+    const { driver, location, rideData } = this.props;
     driver.driverStartRide();
-    this.ride.trigger('client-driver-start-ride', {ride: true});
+    this.ride.trigger('client-driver-start-ride', { ride: true });
     location.calculateNewRegion(rideData);
   }
 
   finishRide() {
-    const {driver} = this.props;
+    const { driver } = this.props;
     driver.finishRide();
-    this.ride.trigger('client-ride-finish', {finish: true});
+  }
+
+  clearRideData() {
+    const { driver, rideData } = this.props;
+    this.ride.trigger('client-ride-finish', { finish: true });
+    driver.clearData();
+    this.pusher.unsubscribe(`presence-rides-${rideData.passenger.email}`);
   }
 
   renderRideHeader() {
-    const {hasPassenger, rideData} = this.props;
-    const {avaiable} = this.state;
+    const { hasPassenger, rideData } = this.props;
+    const { avaiable } = this.state;
 
     return hasPassenger ? (
       <Direction data={rideData} />
@@ -180,22 +184,20 @@ class HomeScreen extends PureComponent {
   }
 
   renderRide() {
-    const {rideData, rideDone} = this.props;
+    const { rideData, rideDone } = this.props;
 
     return rideDone ? (
-      <Collect />
+      <Collect fare={rideData.routeInfo.fare} onPress={this.clearRideData} />
     ) : (
-      <Pickup
-        data={rideData}
-        onStart={this.startRide}
-        onComplete={this.finishRide}
-      />
+      <Pickup data={rideData} onStart={this.startRide} onComplete={this.finishRide} />
     );
   }
 
   render() {
-    const {navigation, hasPassenger, rideData, rideDone} = this.props;
-    const {showNotification, count, avaiable, disableAccept} = this.state;
+    const {
+      navigation, hasPassenger, rideData, rideDone,
+    } = this.props;
+    const { showNotification, count, disableAccept } = this.state;
     return (
       <Container>
         <Header navigation={navigation} title="Driver Home" sideBar />

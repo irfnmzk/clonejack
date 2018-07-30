@@ -4,6 +4,7 @@ import {
   DRIVER_ARRIVE_TO_LOCATION,
   DRIVER_START_RIDE,
   DRIVER_FINISH_RIDE,
+  DRIVER_CLEAR_DATA,
 } from '../actions/constant/driver';
 
 const initialState = {
@@ -57,6 +58,8 @@ export default (state = initialState, action) => {
           status: 'complete',
         },
       };
+    case DRIVER_CLEAR_DATA:
+      return initialState;
     default:
       return state;
   }

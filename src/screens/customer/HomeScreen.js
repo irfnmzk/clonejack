@@ -1,8 +1,8 @@
-import React, {PureComponent} from 'react';
-import {connect} from 'react-redux';
-import {View} from 'react-native';
-import {Container} from 'native-base';
-import {bindActionCreators} from 'redux';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { View } from 'react-native';
+import { Container } from 'native-base';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Pusher from 'pusher-js/react-native';
 import * as customerAction from '../../actions/customer';
@@ -19,7 +19,7 @@ import RideMenu from '../../components/customer/rideMenu';
 import SelectLocation from '../../components/maps/SelectLocation';
 import LocationInfo from '../../components/maps/LocationInfo';
 
-const mapStateToProps = ({customer, auth}) => ({
+const mapStateToProps = ({ customer, auth }) => ({
   isSelectedDest: customer.customerUi.destinationSelected,
   destination: customer.ride.destination.description,
   origin: customer.ride.origin.description,
@@ -67,8 +67,7 @@ class HomeScreen extends PureComponent {
   componentWillMount() {
     // initialize Pusher connection
     this.pusher = new Pusher('d5e8162e2071d516fe7b', {
-      authEndpoint:
-        'https://pusher-channels-auth-example-hdzhdqknhl.now.sh/pusher/auth',
+      authEndpoint: 'https://pusher-channels-auth-example-hdzhdqknhl.now.sh/pusher/auth',
       cluster: 'ap1',
       encrypted: true,
     });
@@ -76,21 +75,21 @@ class HomeScreen extends PureComponent {
   }
 
   componentWillUnmount() {
-    const {user} = this.props;
+    const { user } = this.props;
 
     this.pusher.unsubscribe('private-drivers');
     this.pusher.unsubscribe(`presence-rides-${user.email}`);
   }
 
   onBookPressed() {
-    const {customer, location, ride} = this.props;
+    const { customer, location, ride } = this.props;
     customer.toggleBookState();
     location.calculateNewRegion(ride);
   }
 
   setLocationByMaps() {
-    const {customer, selectedLocation, selectViaMapType} = this.props;
-    const {location, fullAddress} = selectedLocation;
+    const { customer, selectedLocation, selectViaMapType } = this.props;
+    const { location, fullAddress } = selectedLocation;
     const place = {
       description: fullAddress,
       location: {
@@ -108,7 +107,9 @@ class HomeScreen extends PureComponent {
   }
 
   listenToAllChannel() {
-    const {hasRide, user, customer, navigation} = this.props;
+    const {
+      hasRide, user, customer, navigation,
+    } = this.props;
 
     this.driver = this.pusher.subscribe('private-drivers');
     this.ride = this.pusher.subscribe(`presence-rides-${user.email}`);
@@ -117,7 +118,7 @@ class HomeScreen extends PureComponent {
         this.ride.trigger('client-customer-response', {
           accepted: !hasRide,
         });
-        this.ride.bind('client-get-driver', data => {
+        this.ride.bind('client-get-driver', (data) => {
           customer.setDriverData(data);
         });
       });
@@ -129,42 +130,46 @@ class HomeScreen extends PureComponent {
       });
       this.ride.bind('client-ride-finish', () => {
         customer.finishRide();
-        navigation.navigate('Review')
+        navigation.navigate('Review');
       });
     });
   }
 
   toggleRouteInfo() {
-    const {showRouteInfo} = this.state;
+    const { showRouteInfo } = this.state;
     this.setState({
       showRouteInfo: !showRouteInfo,
     });
   }
 
   openOriginSelect() {
-    const {navigation} = this.props;
-    navigation.navigate('GetDestination', {type: 'origin'});
+    const { navigation } = this.props;
+    navigation.navigate('GetDestination', { type: 'origin' });
   }
 
   openDestinationSelect() {
-    const {navigation} = this.props;
-    navigation.navigate('GetDestination', {type: 'destination'});
+    const { navigation } = this.props;
+    navigation.navigate('GetDestination', { type: 'destination' });
   }
 
   requestDriver() {
-    const {ride, routeInfo, customer, user} = this.props;
-    const {origin, destination} = ride;
+    const {
+      ride, routeInfo, customer, user,
+    } = this.props;
+    const { origin, destination } = ride;
     this.driver.trigger('client-request-driver', {
       origin,
       destination,
       routeInfo,
-      passenger: {email: user.email},
+      passenger: { email: user.email },
     });
     customer.searchDriver();
   }
 
   renderBookLocation() {
-    const {destination, origin, isBooked, selectViaMap} = this.props;
+    const {
+      destination, origin, isBooked, selectViaMap,
+    } = this.props;
 
     return selectViaMap ? (
       <SelectLocation />
@@ -180,7 +185,7 @@ class HomeScreen extends PureComponent {
   }
 
   renderBookMenu() {
-    const {isBooked, isSelectedDest} = this.props;
+    const { isBooked, isSelectedDest } = this.props;
     return isBooked ? (
       <RequestMenu
         infoPress={this.toggleRouteInfo}
@@ -193,7 +198,7 @@ class HomeScreen extends PureComponent {
   }
 
   renderBookLocationButton() {
-    const {selectViaMap, selectedLocation, customer} = this.props;
+    const { selectViaMap, selectedLocation, customer } = this.props;
     return selectViaMap ? (
       <LocationInfo
         data={selectedLocation}
@@ -206,8 +211,10 @@ class HomeScreen extends PureComponent {
   }
 
   render() {
-    const {navigation, routeInfo, hasRide, ride} = this.props;
-    const {showRouteInfo} = this.state;
+    const {
+      navigation, routeInfo, hasRide, ride,
+    } = this.props;
+    const { showRouteInfo } = this.state;
     return (
       <Container>
         <Header navigation={navigation} title="Let's Go" sideBar />
@@ -216,11 +223,7 @@ class HomeScreen extends PureComponent {
         </View>
         {hasRide ? <RideState data={ride} /> : this.renderBookLocation()}
         {hasRide ? <RideMenu data={ride} /> : this.renderBookLocationButton()}
-        <RouteInfo
-          info={routeInfo}
-          show={showRouteInfo}
-          onPress={this.toggleRouteInfo}
-        />
+        <RouteInfo info={routeInfo} show={showRouteInfo} onPress={this.toggleRouteInfo} />
       </Container>
     );
   }
@@ -240,7 +243,7 @@ HomeScreen.propTypes = {
   selectViaMap: PropTypes.bool.isRequired,
   selectViaMapType: PropTypes.string.isRequired,
   selectedLocation: PropTypes.instanceOf(Object).isRequired,
-  rideDone: PropTypes.bool.isRequired,
+  // rideDone: PropTypes.bool.isRequired,
 };
 
 HomeScreen.defaultProps = {
