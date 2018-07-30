@@ -19,6 +19,7 @@ const initialState = {
     origin: {},
     destination: {},
     driver: {},
+    isDone: false,
     onRide: false,
     status: 'PICKUP',
     driverArrive: false,

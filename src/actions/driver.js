@@ -5,6 +5,7 @@ import {
   DRIVER_CALCULATE_REGION,
   DRIVER_ARRIVE_TO_LOCATION,
   DRIVER_START_RIDE,
+  DRIVER_FINISH_RIDE,
 } from './constant/driver';
 import GetRegionFromCoods from '../utils/GetRegionFromCoods';
 
@@ -19,7 +20,7 @@ export const startRide = () => ({
 
 export const calculateRegion = () => {
   const storeData = store.getState();
-  const { driver, location } = storeData;
+  const {driver, location} = storeData;
   const coords = [driver.ride.origin.location, location.userLocation];
   const data = GetRegionFromCoods(coords);
   return {
@@ -34,4 +35,8 @@ export const driverArrive = () => ({
 
 export const driverStartRide = () => ({
   type: DRIVER_START_RIDE,
+});
+
+export const finishRide = () => ({
+  type: DRIVER_FINISH_RIDE,
 });

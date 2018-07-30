@@ -3,11 +3,13 @@ import {
   START_DRIVER_RIDE,
   DRIVER_ARRIVE_TO_LOCATION,
   DRIVER_START_RIDE,
+  DRIVER_FINISH_RIDE,
 } from '../actions/constant/driver';
 
 const initialState = {
   hasPassenger: false,
   ride: {
+    isDone: false,
     onRide: false,
     driverArrive: false,
     status: 'PICKUP',
@@ -44,6 +46,15 @@ export default (state = initialState, action) => {
           ...state.ride,
           status: 'RIDE',
           onRide: true,
+        },
+      };
+    case DRIVER_FINISH_RIDE:
+      return {
+        ...state,
+        ride: {
+          ...state.ride,
+          isDone: true,
+          status: 'complete',
         },
       };
     default:

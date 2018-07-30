@@ -4,7 +4,7 @@ import { Icon, Button } from 'native-base';
 import PropTypes from 'prop-types';
 import styles from './styles/Pickup';
 
-const Pickup = ({ data, onStart }) => (
+const Pickup = ({ data, onStart, onComplete }) => (
   <View style={styles.Container}>
     {!data.onRide && (
       <View style={styles.PickupCard}>
@@ -37,7 +37,7 @@ const Pickup = ({ data, onStart }) => (
         </View>
     )}
     {data.onRide && (
-      <Button style={styles.ButtonCompleteContainer} full>
+      <Button style={styles.ButtonCompleteContainer} full onPress={onComplete}>
         <Text style={styles.ButtonCompleteText}>
           {'COMPLETE ORDER'}
         </Text>
@@ -49,6 +49,7 @@ const Pickup = ({ data, onStart }) => (
 Pickup.propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,
   onStart: PropTypes.func.isRequired,
+  onComplete: PropTypes.func.isRequired,
 };
 
 export default Pickup;
