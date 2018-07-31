@@ -14,7 +14,7 @@ export const loginSuccess = data => ({
 export const processLogin = data => (dispatch) => {
   dispatch(toggleLoading());
   return new Promise((resolve, reject) => axios
-    .post('https://us-central1-react-native-project-cfd3e.cloudfunctions.net/auth', data)
+    .post('https://us-central1-react-native-project-cfd3e.cloudfunctions.net/login', data)
     .then((res) => {
       dispatch(loginSuccess(res.data));
       dispatch(toggleLoading(true));

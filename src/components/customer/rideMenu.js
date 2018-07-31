@@ -17,7 +17,7 @@ const RideMenu = ({ data }) => (
         <View style={styles.InfoItem}>
           <Icon name="motorbike" type="MaterialCommunityIcons" style={styles.InfoIcon} />
           <Text style={styles.InfoText}>
-            {data.driver.vehicle.name}
+            {`${data.driver.vehicle.brand}${data.driver.vehicle.type}`}
           </Text>
         </View>
       </View>

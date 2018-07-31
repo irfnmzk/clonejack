@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
         ...state,
         isLogin: true,
         user: {
-          ...action.payload.user,
+          ...action.payload.userData,
         },
       };
     default:
