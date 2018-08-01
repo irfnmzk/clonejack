@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LOGIN_PROCESS_SUCCESS, TOGGLE_LOGIN_LOADING } from './constant/auth';
+import { LOGIN_PROCESS_SUCCESS, TOGGLE_LOGIN_LOADING, LOGOUT } from './constant/auth';
 
 const toggleLoading = data => ({
   type: TOGGLE_LOGIN_LOADING,
@@ -25,3 +25,7 @@ export const processLogin = data => (dispatch) => {
       reject(err.response.data.message);
     }));
 };
+
+export const logout = () => ({
+  type: LOGOUT,
+});

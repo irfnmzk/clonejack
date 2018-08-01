@@ -1,7 +1,14 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Container, Icon } from 'native-base';
 import styles from './styles/SideBar';
+import { logout } from '../../actions/auth';
+
+const mapDispatchToProps = dispatch => ({
+  userLogout: () => dispatch(logout()),
+});
 
 class SideBar extends PureComponent {
   constructor() {
@@ -18,8 +25,10 @@ class SideBar extends PureComponent {
   }
 
   navigateToScreen(location) {
+    const { userLogout } = this.props;
+    if (location === 'Logout') return userLogout();
     const { navigation } = this.props;
-    navigation.navigate(location);
+    return navigation.navigate(location);
   }
 
   renderMenuItem(route) {
@@ -49,4 +58,11 @@ class SideBar extends PureComponent {
   }
 }
 
-export default SideBar;
+SideBar.propTypes = {
+  userLogout: PropTypes.func.isRequired,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SideBar);
