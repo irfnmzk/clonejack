@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Container, Icon } from 'native-base';
 import styles from './styles/SideBar';
 
@@ -13,16 +13,27 @@ class SideBar extends PureComponent {
       { key: 3, name: 'Setting', icon: { type: 'Ionicons', name: 'md-settings' } },
       { key: 4, name: 'Logout', icon: { type: 'MaterialCommunityIcons', name: 'logout' } },
     ];
+
+    this.navigateToScreen = this.navigateToScreen.bind(this);
+  }
+
+  navigateToScreen(location) {
+    const { navigation } = this.props;
+    navigation.navigate(location);
   }
 
   renderMenuItem(route) {
     return (
-      <View style={styles.ItemMenuContainer} key={route.key}>
+      <TouchableOpacity
+        style={styles.ItemMenuContainer}
+        key={route.key}
+        onPress={() => this.navigateToScreen(route.name)}
+      >
         <Icon style={styles.IconMenu} {...route.icon} />
         <Text style={styles.ItemMenuText}>
           {route.name}
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   }
 

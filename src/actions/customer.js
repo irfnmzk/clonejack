@@ -11,8 +11,9 @@ import {
   CUSTOMER_SET_DRIVER_ARRIVE,
   CUSTOMER_START_DRIVE,
   CUSTOMER_FINISH_DRIVE,
+  CUSTOMER_CLEAR_RIDE,
 } from './constant/customer';
-import {getAddressByCoords} from '../utils/NearbyPlace';
+import { getAddressByCoords } from '../utils/NearbyPlace';
 
 export const setCustomerDestination = location => ({
   type: SET_CUSTOMER_DESTINATION,
@@ -28,8 +29,8 @@ export const toggleBookState = () => ({
   type: SET_USER_BOOK_STATE,
 });
 
-export const setRouteInfo = data => {
-  const {distance, duration} = data;
+export const setRouteInfo = (data) => {
+  const { distance, duration } = data;
   const fare = (distance * 8000).toFixed(0);
   return {
     type: SET_ROUTE_INFO,
@@ -59,20 +60,20 @@ export const getAddressStart = () => ({
   type: CUSTOMER_GET_ADDRESS_START,
 });
 
-const setMapsLocation = data => {
-  const {geometry} = data;
-  const {location} = geometry;
+const setMapsLocation = (data) => {
+  const { geometry } = data;
+  const { location } = geometry;
   const fullAddress = data.formatted_address;
   const arr = fullAddress.split(',');
   const address = arr[0];
   return {
     type: CUSTOMER_GET_ADDRESS_SUCCESS,
-    payload: {location, fullAddress, address},
+    payload: { location, fullAddress, address },
   };
 };
 
-export const getAddressFromLocation = ({latitude, longitude}) => dispatch => {
-  getAddressByCoords({latitude, longitude}).then(data => {
+export const getAddressFromLocation = ({ latitude, longitude }) => (dispatch) => {
+  getAddressByCoords({ latitude, longitude }).then((data) => {
     dispatch(setMapsLocation(data));
   });
 };
@@ -87,4 +88,8 @@ export const startRide = () => ({
 
 export const finishRide = () => ({
   type: CUSTOMER_FINISH_DRIVE,
+});
+
+export const clearData = () => ({
+  type: CUSTOMER_CLEAR_RIDE,
 });

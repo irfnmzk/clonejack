@@ -6,14 +6,32 @@ import PropTypes from 'prop-types';
 import RatingStar from 'react-native-star-rating';
 import styles from './styles/Review';
 import Header from '../../components/commons/Header';
+import { clearData } from '../../actions/customer';
 
 const mapStateToProps = ({ customer }) => ({
   rideData: customer.ride,
 });
 
+const mapDispatchToProps = dispatch => ({
+  clearDatas: () => dispatch(clearData()),
+});
+
 class Review extends PureComponent {
+  constructor() {
+    super();
+
+    this.onSend = this.onSend.bind(this);
+  }
+
+  onSend() {
+    const { navigation, clearDatas } = this.props;
+    clearDatas();
+    navigation.navigate('Home');
+  }
+
   render() {
-    const { routeInfo, driver } = this.props.rideData;
+    const { rideData } = this.props;
+    const { routeInfo, driver } = rideData;
     return (
       <Container>
         <Header title="Review" noGoback />
@@ -40,7 +58,7 @@ class Review extends PureComponent {
               style={styles.TextArea}
             />
           </View>
-          <TouchableOpacity style={styles.Button}>
+          <TouchableOpacity style={styles.Button} onPress={this.onSend}>
             <Text style={styles.ButtonText}>
               {'Send Review'}
             </Text>
@@ -53,6 +71,10 @@ class Review extends PureComponent {
 
 Review.propTypes = {
   rideData: PropTypes.instanceOf(Object).isRequired,
+  clearDatas: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(Review);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Review);

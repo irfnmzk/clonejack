@@ -11,6 +11,7 @@ import {
   CUSTOMER_SET_DRIVER_ARRIVE,
   CUSTOMER_START_DRIVE,
   CUSTOMER_FINISH_DRIVE,
+  CUSTOMER_CLEAR_RIDE,
 } from '../actions/constant/customer';
 
 const initialState = {
@@ -153,6 +154,8 @@ export default (state = initialState, action) => {
           isDone: true,
         },
       };
+    case CUSTOMER_CLEAR_RIDE:
+      return initialState;
     default:
       return state;
   }

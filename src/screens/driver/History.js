@@ -14,7 +14,7 @@ class History extends PureComponent {
     const { navigation } = this.props;
     return (
       <Container>
-        <Header title="Trip History" navigation={navigation} sideBar />
+        <Header title="Trip History" navigation={navigation} />
         <View style={styles.Container}>
           <View style={styles.CardContainer}>
             <View style={styles.PassengerContainer}>
